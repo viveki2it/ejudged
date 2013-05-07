@@ -31,7 +31,7 @@ class NewRegistrationController < ApplicationController
 				#create entry
 				if @customerOK and @theparameters.keys.include?("contest_id") and @theparameters.keys.include?("RegistrationNumber") and @theparameters.keys.include?("Year") and @theparameters.keys.include?("Make") and @theparameters.keys.include?("Model")
 					@entry = Entry.new(:RegistrationNumber => @theparameters.fetch("RegistrationNumber"), :Year => @theparameters.fetch("Year"), :Make => @theparameters.fetch("Make"), :Model => @theparameters.fetch("Model"))
-					@entry.user = @user
+					#@entry.user = @user
 					@entry.contest = Contest.find(@theparameters.fetch("contest_id"))
 					if @customerNew
 						@entry.club = @club

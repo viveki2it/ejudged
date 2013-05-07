@@ -28,11 +28,6 @@
 </p>
 
 <p>
-  <b>Created:</b>
-  <%= @entry.Created %>
-</p>
-
-<p>
   <b>Club:</b>
   <%if not @entry.club.nil?%>
     <%= link_to @entry.club.ClubName, @entry.club%>

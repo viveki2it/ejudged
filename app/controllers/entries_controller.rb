@@ -795,7 +795,7 @@ class EntriesController < ApplicationController
           @entry.customer = @customer
           @entry.contest = @contest
           @entry.club = @club
-          @entry.user = @user
+          #@entry.user = @user
           #@entry.Created = DateTime.now
         end
 
@@ -819,7 +819,7 @@ class EntriesController < ApplicationController
           @entry.customer = @customer
           @entry.contest = @contest
           @entry.club = @club
-          @entry.user = @user
+          #@entry.user = @user
           #@entry.Created = DateTime.now
         end
 
@@ -843,7 +843,7 @@ class EntriesController < ApplicationController
           @entry.customer = @customer
           @entry.contest = @contest
           @entry.club = @club
-          @entry.user = @user
+          #@entry.user = @user
           #@entry.Created = DateTime.now
         end
 
@@ -858,7 +858,7 @@ class EntriesController < ApplicationController
         end
         @entry.customer = @customer
         @entry.club = @club
-        @entry.user = @user
+        #@entry.user = @user
         #@entry.Created = DateTime.now
 
       elsif (not params[:entry][:contest_id].nil?) and (not params[:entry][:customer_id].nil?)
@@ -879,7 +879,7 @@ class EntriesController < ApplicationController
           end
           @entry.customer = @customer
           @entry.contest = @contest
-          @entry.user = @user
+          #@entry.user = @user
           #@entry.Created = DateTime.now
         end
 
@@ -901,7 +901,7 @@ class EntriesController < ApplicationController
           end
           @entry.contest = @contest
           @entry.club = @club
-          @entry.user = @user
+          #@entry.user = @user
           #@entry.Created = DateTime.now
         end
 
@@ -914,7 +914,7 @@ class EntriesController < ApplicationController
             @entry.photos.push(@photo)
         end
         @entry.club = @club
-        @entry.user = @user
+        #@entry.user = @user
 
       elsif not params[:entry][:club_id].nil?
         @club = Club.find(params[:entry][:club_id])
@@ -925,7 +925,7 @@ class EntriesController < ApplicationController
             @entry.photos.push(@photo)
         end
         @entry.club = @club
-        @entry.user = @user
+        #@entry.user = @user
         #@entry.Created = DateTime.now
 
       elsif not params[:customer_id].nil?
@@ -937,7 +937,7 @@ class EntriesController < ApplicationController
             @entry.photos.push(@photo)
         end
         @entry.customer = @customer
-        @entry.user = @user
+        #@entry.user = @user
         #@entry.Created = DateTime.now
 
       elsif not params[:entry][:customer_id].nil?
@@ -949,7 +949,7 @@ class EntriesController < ApplicationController
             @entry.photos.push(@photo)
         end
         @entry.customer = @customer
-        @entry.user = @user
+        #@entry.user = @user
         #@entry.Created = DateTime.now
 
       elsif not params[:contest_id].nil?
@@ -963,7 +963,7 @@ class EntriesController < ApplicationController
         if not completed
           @entry = Entry.new(params[:entry])
           @entry.contest = @contest
-          @entry.user = @user
+          #@entry.user = @user
           #@entry.Created = DateTime.now
         end
 
@@ -978,7 +978,7 @@ class EntriesController < ApplicationController
         if not completed
           @entry = Entry.new(params[:entry])
           @entry.contest = @contest
-          @entry.user = @user
+          #@entry.user = @user
           #@entry.Created = DateTime.now
           if params[:entry][:photo].present?
             @photo = Photo.new(:photo => params[:entry][:photo])
@@ -989,7 +989,7 @@ class EntriesController < ApplicationController
 
       else
         @entry = Entry.new(params[:entry])
-        @entry.user = @user
+        #@entry.user = @user
         #@entry.Created = DateTime.now
         if params[:entry][:photo].present?
             @photo = Photo.new(:photo => params[:entry][:photo])
