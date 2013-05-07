@@ -124,7 +124,8 @@ class VoteController < ApplicationController
 				@entry.save
 
 	  			@return = Array.new
-	  			@return.push(@col_answer,@specialities_record)
+
+	  			@return.push(@col_answer,@specialities_record, @entry)
 	  			render :json => @return
 	  		else
 	  			render :json => {error:"This event has past."}, :status => :unprocessable_entity
@@ -145,106 +146,17 @@ class VoteController < ApplicationController
 				@judgeSheet = @contest.judge_sheet
 				@questions = @judgeSheet.questions
 
-				@firstItemName = nil
-				@firstItemValue = []
-
-				@SecondItemName  = nil
-				@SecondItemValue = []
-
-				@thirdItemName  = nil
-				@thirdItemValue = []
-
-				@fourthItemName  = nil
-				@fourthItemValue = []
-
-				@lastItemName  = nil
-				@lastItemValue  = []
-
 				@returnMap = Hash.new
 				@questions.each do |q|
-
-					if (q.question_category.Name.downcase == "exterior")
-
-						@firstItemName = q.question_category.Name
-						@itemm = Hash.new
-						@itemm["question"] = q
-						#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
-						@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
-						@firstItemValue.push(@itemm)
-
-					elsif (q.question_category.Name.downcase == "engine compartment")
-
-						@SecondItemName = q.question_category.Name
-						@itemm = Hash.new
-						@itemm["question"] = q
-						#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
-						@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
-						@SecondItemValue.push(@itemm)
-
-					elsif (q.question_category.Name.downcase == "interior")
-
-						@thirdItemName = q.question_category.Name
-						@itemm = Hash.new
-						@itemm["question"] = q
-						#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
-						@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
-						@thirdItemValue.push(@itemm)
-
-					elsif (q.question_category.Name.downcase == "show quality")
-
-						@fourthItemName = q.question_category.Name
-						@itemm = Hash.new
-						@itemm["question"] = q
-						#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
-						@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
-						@fourthItemValue.push(@itemm)
-
-					elsif (q.question_category.Name.downcase == "other")
-
-						@lastItemName = q.question_category.Name
-						@itemm = Hash.new
-						@itemm["question"] = q
-						#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
-						@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
-						@lastItemValue.push(@itemm)
-						
-					else
-						if @returnMap[q.question_category.Name].nil? and 
-							@returnMap[q.question_category.Name] = []
-						end
-						@itemm = Hash.new
-						@itemm["question"] = q
-						#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
-						@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
-						@returnMap[q.question_category.Name].push(@itemm)
+					if @returnMap[q.question_category.Name].nil?
+						@returnMap[q.question_category.Name] = []
 					end
+					@itemm = Hash.new
+					@itemm["question"] = q
+					#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
+					@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
+					@returnMap[q.question_category.Name].push(@itemm)
 				end
-
-#harkcoding order.
-				@returnMap2 = Hash.new	
-
-				if (@firstItemName != nil)
-					@returnMap2[ @firstItemName ] = @firstItemValue;
-				end
-
-				if (@SecondItemName != nil)
-					@returnMap2[ @SecondItemName ] = @SecondItemValue;
-				end
-
-				if (@thirdItemName != nil)
-					@returnMap2[ @thirdItemName ] = @thirdItemValue;
-				end
-
-				if (@fourthItemName != nil)
-					@returnMap2[ @fourthItemName ] = @fourthItemValue;
-				end
-
-				if (@lastItemName != nil)
-					@returnMap2[ @lastItemName ] = @lastItemValue;
-				end
-
-				@returnMap2 = @returnMap2.merge(@returnMap)
-#end
 
 				#listing specialities
 				@event = @contest.event
@@ -265,7 +177,7 @@ class VoteController < ApplicationController
 				@returnMapSp = Hash.new
 				@returnMapSp["Specialities"] = @specialities_record
 				@return = Array.new
-				@return.push(@returnMap2, @returnMapSp)
+				@return.push(@returnMap, @returnMapSp)
 				
 				respond_to do |format|
 					format.json { render :json => @return}
