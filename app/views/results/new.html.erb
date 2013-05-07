@@ -1,0 +1,51 @@
+
+<h1>New result</h1>
+<%= form_for(@result) do |f| %>
+  <% if @result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@result.errors.count, "error") %> prohibited this customer from being saved:</h2>
+
+      <ul>
+      <% @result.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="field">
+    <%= f.label :entry %>
+    <%= collection_select :result, :entry_id, Entry.all, :id, :full_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :question %>
+    <%= collection_select :result, :question_id, Question.all, :id, :QuestionText %>
+  </div>
+
+  <div class="field">
+    <%= f.label :Notes %><br />
+    <%= f.text_field :Notes %>
+  </div>
+
+  <div class="field">
+    <%= f.label :Value %><br />
+    <%= f.number_field :Value %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>
+
+
+<script>
+/*
+var element = document.getElementById("result_question_id");
+element.onchange=function(e){
+  var selectedData = e.currentTarget.firstChild.childNodes[0].data;
+  if ()
+};
+*/
+</script>

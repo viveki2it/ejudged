@@ -1,0 +1,21 @@
+<%= form_for(@judge_sheet) do |f| %>
+  <% if @judge_sheet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@judge_sheet.errors.count, "error") %> prohibited this judge_sheet from being saved:</h2>
+
+      <ul>
+      <% @judge_sheet.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :Name %><br />
+    <%= f.text_field :Name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

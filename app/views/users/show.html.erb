@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @user.Name %>
+</p>
+<p>
+  <b>Created:</b>
+  <%= @user.Created %>
+</p>
+<p>
+  <b>Contact info:</b>
+  <%if not @user.contact_info.nil?%>
+  	<%= link_to @user.contact_info.FirstName + " " +@user.contact_info.LastName, @user.contact_info %>
+  <%else%>
+  	Unassigned
+  <%end%>
+</p>
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
+<br/>

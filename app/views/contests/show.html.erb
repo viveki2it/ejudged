@@ -1,0 +1,59 @@
+<p>
+  <b>Contestname:</b>
+  <%= @contest.ContestName %>
+</p>
+
+<p>
+  <b>Judge sheet:</b>
+  <%if not @contest.judge_sheet.nil?%>
+    <%= link_to @contest.judge_sheet.Name, @contest.judge_sheet %>
+  <%else%>
+    <td>Unassigned</td>
+  <%end%>
+</p>
+
+<p>
+  <b>Event:</b>
+    <%if not @contest.event.nil? %>
+        <%= link_to @contest.event.EventName, @contest.event %>
+    <%else%>
+        <td>Unassigned</td>
+    <%end%>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%if not @contest.category.nil? %>
+        <%= link_to @contest.category.name, @contest.category %>
+  <%else%>
+        <td>Unassigned</td>
+  <%end%>
+</p>
+<br/>
+
+<h3>Entries:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>Registration Number:</b></td>
+    <td><b>Entry Type:</b></td>
+    <td><b>Make:</b></td>
+    <td><b>Model:</b></td>
+    <td><b>Year:</b></td>
+    <td><b>Entry Link:</b></td>
+  </tr>
+<% @contest.entries.each do |entry| %>
+  <tr>
+    <td><%= entry.RegistrationNumber%></td>
+    <td><%= entry.RegistrationType%></td>
+    <td><%= entry.Make%></td>
+    <td><%= entry.Model%></td>
+    <td><%= entry.Year%></td>
+    <td><%= link_to "Entry Details", entry%>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_contest_path(@contest) %> |
+<%= link_to 'Back', contests_path %>
+<br/>

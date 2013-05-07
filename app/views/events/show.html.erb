@@ -1,0 +1,60 @@
+<p>
+  <b>Eventname:</b>
+  <%= @event.EventName %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @event.Location %>
+</p>
+
+<p>
+  <b>Event Date:</b>
+  <%= @event.EventDate %>
+</p>
+<p>
+  <b>Completed:</b>
+  <%= @event.Completed %>
+</p>
+
+<p>
+  <b>Serie:</b>
+  <%if not @event.serie.nil?%>
+    <%= link_to @event.serie.SeriesName, @event.serie %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<h3>Contests:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>Contest Name:</b></td>
+    <td><b>Contest Link:</b></td>
+  </tr>
+<% @event.contests.each do |contest| %>
+  <tr>
+    <td><%= contest.ContestName%></td>
+    <td><%= link_to "Contest Details", contest %></td>
+  </tr>
+<% end %>
+</table>
+
+<h3>Specialities:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>Speciality Name:</b></td>
+    <td><b>Speciality Link:</b></td>
+  </tr>
+<% @event.specialities.each do |speciality| %>
+  <tr>
+    <td><%= speciality.Type%></td>
+    <td><%= link_to "Speciality Details", speciality %></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>
+<br/>

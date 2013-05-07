@@ -1,0 +1,40 @@
+<p>
+  <b>Value:</b>
+  <%= @result.Value %>
+</p>
+<p>
+  <b>Notes:</b>
+  <%= @result.Notes %>
+</p>
+
+<p>
+  <b>Entry:</b>
+  <%if not @result.entry.nil?%>
+    <%= @result.entry.Make + " " + @result.entry.Model + " " + @result.entry.Year %>
+    <%= link_to "Entry Details", @result.entry%>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
+  <b>Question:</b>
+  <%if not @result.question.nil?%>
+    <%= link_to @result.question.QuestionText, @result.question %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
+  <b>User:</b>
+  <%if not @result.user.nil?%>
+    <%= link_to @result.user.Name, @result.user %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<%= link_to 'Edit', edit_result_path(@result) %> |
+<%= link_to 'Back', results_path %>
+<br/>

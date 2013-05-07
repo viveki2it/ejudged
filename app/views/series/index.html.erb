@@ -1,0 +1,27 @@
+<h1>Series</h1>
+
+<table>
+  <tr>
+    <th>Seriesname</th>
+    <th>Completed</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @series.each do |series| %>
+  <tr>
+    <td><%= truncate(series.SeriesName, :lenght => 15) %></td>
+    <td><%= series.Completed %></td>
+    <td><%= link_to 'Show', series %></td>
+    <td><%= link_to 'Edit', edit_serie_path(series) %></td>
+    <td><%= link_to 'Destroy', series, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= paginate @series %>
+<br/>
+
+<%= link_to 'New Serie', new_serie_path %>

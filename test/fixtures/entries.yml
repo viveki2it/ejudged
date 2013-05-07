@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  RegistrationType: MyString
+  Make: MyString
+  Model: MyString
+  Notes: MyText
+  RegistrationNumber: 1
+  Score: 1
+  Year: MyString
+  contest: 
+  club: 
+  customer: 
+  user: 
+  Created: 2013-04-15 13:58:01
+
+two:
+  RegistrationType: MyString
+  Make: MyString
+  Model: MyString
+  Notes: MyText
+  RegistrationNumber: 1
+  Score: 1
+  Year: MyString
+  contest: 
+  club: 
+  customer: 
+  user: 
+  Created: 2013-04-15 13:58:01

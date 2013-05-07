@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EJudged</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body style="margin: 5px;border: 1px;border-color: black;border-bottom-style: double;padding: 7px;">
+	<div style="float: right;margin-right: 50px;">
+		<%= link_to "home", "/login/home" if session[:currentUser] != nil%>
+		<%= link_to "logout", "/login/logout" if session[:currentUser] != nil%>
+	</div>
+	<div style="margin:20px;">
+		<%= yield %>
+		<% if flash[:notice] %>
+		  <span class="notice"><%= flash[:notice] %></span>
+		<% end %>
+		<% if flash[:error] %>
+		  <span class="error"><%= flash[:error] %></span>
+		<% end %>
+	</div>
+</body>
+</html>

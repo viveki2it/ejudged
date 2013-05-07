@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= truncate(@category.name, :lenght => 15) %>
+</p>
+
+<h3>Contests:</h3>
+<table >
+  <tr>
+    <td><b>Contest Name:</b></td>
+    <td><b>Contest Link:</b></td>
+  </tr>
+<% @category.contests.each do |contest| %>
+  <tr>
+    <td><%= contest.ContestName%></td>
+    <td><%= link_to "Contest Details", contest%></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_category_path(@category) %> |
+<%= link_to 'Back', categories_path %>
+<br/>

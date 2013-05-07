@@ -1,0 +1,70 @@
+<h1>Editing event</h1>
+
+<%= form_for(@event) do |f| %>
+
+  <div class="field">
+    <%= f.label :EventName %><br />
+    <%= f.text_field :EventName %>
+  </div>
+  <div class="field">
+    <%= f.label :Location %><br />
+    <%= f.text_field :Location %>
+  </div>
+  <div class="field">
+    <%= f.label "event date" %><br />
+    <%= date_select(:event, :EventDate) %>
+  </div>
+  <div class="field">
+    <%= f.label :Completed %><br />
+    <%= f.check_box :Completed %>
+  </div>
+
+  <div class="field">
+    <%= f.label :serie %>
+    <%= collection_select :event, :serie_id, Serie.all, :id, :SeriesName %>
+  </div>
+
+  <h3>Specialities nominations:</h3>
+  <table>
+    <tr>
+      <td><b>Speciality Name:</b></td>
+  </tr>
+  <% @event.specialities.each do |s| %>
+    <tr>
+      <td><%= s.Type %></td>
+    </tr>
+  <% end %>
+  </table>
+  <br/>
+
+<h3>Choose Specialities for the event</h3>
+  <div class="field">
+    <%= f.label "Speciality" %><br />
+    <%= f.select :speciality_ids, Speciality.all.collect {|x| [x.Type, x.id]}, {},:selected => @event.specialities.map {|x| x.id}, :multiple => true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<br/>
+
+<h3>Contests:</h3>
+<table>
+  <tr>
+    <td><b>Contest Name:</b></td>
+  </tr>
+<% @event.contests.each do |contest| %>
+  <tr>
+    <td><%=truncate(contest.ContestName, :lenght => 15) %></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<h3>Add a contest:</h3>
+<%= render "contests/form" %>
+<br/>
+
+<%= link_to 'Show', @event %> |
+<%= link_to 'Back', events_path %>

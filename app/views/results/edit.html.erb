@@ -1,0 +1,32 @@
+<h1>Editing result</h1>
+
+<%= form_for(@result) do |f| %>
+
+  <div class="field">
+    <%= f.label :entry %>
+    <%= collection_select :result, :entry_id, Entry.all, :id, :RegistrationNumber %>
+  </div>
+
+  <div class="field">
+    <%= f.label :question %>
+    <%= collection_select :result, :question_id, Question.all, :id, :QuestionText %>
+  </div>
+
+  <div class="field">
+    <%= f.label :Notes %><br />
+    <%= f.text_field :Notes %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :Value %><br />
+    <%= f.number_field :Value %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @result %> |
+<%= link_to 'Back', results_path %>
+

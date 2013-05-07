@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Photo:</b>
+  <br/>
+  	<%= image_tag (@photo.photo.url(:small)) %> 
+</p>
+
+<p>
+  <b>Entry Registration Number:</b>
+  <%if not @photo.entry.nil?%>
+  	<%= link_to @photo.entry.RegistrationNumber, @photo.entry %>
+  <%else%>
+  	Unassigned
+  <%end%>
+</p>
+
+<%= link_to 'Destroy', @photo, method: :delete, data: { confirm: 'Are you sure?' } %>|
+<%= link_to 'Back', photos_path %>
+<br/>

@@ -1,0 +1,31 @@
+<h1>Listing photos</h1>
+
+<table>
+  <tr>
+    <th>Entry Registration Number</th>
+    <th>Foto preview</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @photos.each do |photo| %>
+  <tr>
+    <%if not photo.entry.nil?%>
+      <td align="center"><%= photo.entry.RegistrationNumber %></td>
+    <%else%>
+      <td>Unassigned</td>
+    <%end%>
+    <td><%= image_tag (photo.photo.url(:thumb)) %></td>
+    <td><%= link_to 'Show', photo %></td>
+    <td><%= link_to 'Edit', edit_photo_path(photo) %></td>
+    <td><%= link_to 'Destroy', photo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<%= paginate @photos %>
+<br/>
+
+<%= link_to 'New Photo', new_photo_path %>

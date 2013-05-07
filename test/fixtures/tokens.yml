@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  Value: MyString
+  ExpirationDate: 2013-03-26 12:55:32
+  user: 
+
+two:
+  Value: MyString
+  ExpirationDate: 2013-03-26 12:55:32
+  user: 

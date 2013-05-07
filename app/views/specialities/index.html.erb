@@ -1,0 +1,34 @@
+<h1>Listing specialities</h1>
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Freezed Entry</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @specialities.each do |speciality| %>
+  <tr>
+    <td><%= truncate(speciality.Type, :lenght => 15) %></td>
+    <%if speciality.FreezedEntry != nil
+          @entry = Entry.find(speciality.FreezedEntry)
+      %>
+      <td><%= @entry.full_name %></td>
+    <%else%>
+      <td>N/A</td>
+    <%end%>
+
+    <td><%= link_to 'Show', speciality %></td>
+    <td><%= link_to 'Edit', edit_speciality_path(speciality) %></td>
+    <td><%= link_to 'Destroy', speciality, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= paginate @specialities %>
+<br/>
+
+<%= link_to 'New Speciality', new_speciality_path %>

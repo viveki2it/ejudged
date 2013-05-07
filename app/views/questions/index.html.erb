@@ -1,0 +1,53 @@
+<h1>Listing questions</h1>
+
+<table>
+  <tr>
+    <th>Questiontext</th>
+    <th>Minval</th>
+    <th>Maxval</th>
+    <th>Questiondescrip</th>
+    <th>Question category</th>
+    <th>Judge sheet</th>
+    <th>Question Type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @questions.each do |question| %>
+  <tr>
+    <td><%= truncate(question.QuestionText, :lenght => 15) %></td>
+    <td><%= question.MinVal %></td>
+    <td><%= question.MaxVal %></td>
+    <td><%= truncate(question.QuestionDescrip, :lenght => 15) %></td>
+    
+    <%if not question.question_category.nil?%>
+        <td><%= question.question_category.Name %></td>
+    <%else%>
+        <td>Unassigned</td>
+    <%end%>
+
+    <%if not question.judge_sheet.nil?%>
+        <td><%= truncate(question.judge_sheet.Name, :lenght => 15)%>
+    <%else%>
+        <td>Unassigned</td>
+    <%end%>
+
+    <%if not question.question_type.nil?%>
+        <td><%= truncate(question.question_type.Type, :lenght => 15)%>
+    <%else%>
+        <td>Unassigned</td>
+    <%end%>
+    
+    <td><%= link_to 'Show', question %></td>
+    <td><%= link_to 'Edit', edit_question_path(question) %></td>
+    <td><%= link_to 'Destroy', question, :method => :delete, :data => { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= paginate @questions %>
+<br/>
+
+<%= link_to 'New Question', new_question_path %>

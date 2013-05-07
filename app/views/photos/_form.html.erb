@@ -1,0 +1,11 @@
+<%= form_for([@entry, @entry.photos.build] , :html => { :multipart => true }) do |f| %>
+  
+  <div class="field">
+    <%= f.label :photo %><br />
+    <%= f.file_field :photo %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

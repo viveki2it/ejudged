@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @question_category.Name %>
+</p>
+
+<br/>
+
+<h3>Questions:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+	<tr>
+		<td><b>Question Text:</b></td>
+    	<td><b>Minval:</b></td>
+    	<td><b>Maxval:</b></td>
+    	<td><b>Questiondescrip:</b></td>
+    	<td><b>Question Link:</b></td>
+	</tr>
+<% @question_category.questions.each do |question| %>
+	<tr>
+		<td><%= question.QuestionText%></td>
+		<td><%= question.MinVal%></td>
+		<td><%= question.MaxVal%></td>
+		<td><%= question.QuestionDescrip%></td>
+		<td><%= link_to "Question Details", question%>
+	</tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_question_category_path(@question_category) %> |
+<%= link_to 'Back', question_categories_path %>

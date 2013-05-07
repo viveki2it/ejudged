@@ -1,0 +1,50 @@
+<%= form_for([@customer, @customer.entries.build], :html => { :multipart => true }) do |f| %>
+
+  <div class="field">
+    <%= f.label :RegistrationType %><br />
+    <%= f.text_field :RegistrationType %>
+  </div>
+
+  <div class="field">
+    <%= f.label :Contest %>
+    <%= collection_select :entry, :contest_id, Contest.all, :id, :ContestName %>
+  </div>
+
+  <div class="field">
+    <%= f.label :Club %>
+    <%= collection_select :entry, :club_id, Club.all, :id, :ClubName %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :RegistrationNumber %><br />
+    <%= f.number_field :RegistrationNumber %>
+  </div>
+  <div class="field">
+    <%= f.label :Year %><br />
+    <%= f.text_field :Year %>
+  </div>
+  <div class="field">
+    <%= f.label :Make %><br />
+    <%= f.text_field :Make %>
+  </div>
+  <div class="field">
+    <%= f.label :Model %><br />
+    <%= f.text_field :Model %>
+  </div>
+  <div class="field">
+    <%= f.label :Notes %><br />
+    <%= f.text_area :Notes %>
+  </div>
+  <br/>
+  
+  <h3>Add a Photo</h3>
+  <div class="field">
+    <%= f.label :photo %><br />
+    <%= f.file_field :photo %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>

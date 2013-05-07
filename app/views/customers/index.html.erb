@@ -1,0 +1,37 @@
+<h1>Listing customers</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Club</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @customers.each do |customer| %>
+  <tr>
+    <%if not customer.contact_info.nil?%>
+      <td><%= truncate(customer.contact_info.FirstName + " " + customer.contact_info.LastName , :lenght => 15)%></td>
+    <%else%>
+      <td>Unassigned</td>
+    <%end%>
+
+    <%if not customer.club.nil?%>
+      <td><%= truncate(customer.club.ClubName, :lenght => 15)%></td>
+    <%else%>
+      <td>Unassigned</td>
+    <%end%>
+
+    <td><%= link_to 'Show', customer %></td>
+    <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
+    <td><%= link_to 'Destroy', customer, :method => :delete, :data => { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= paginate @customers %>
+<br/>
+
+<%= link_to 'New Customer', new_customer_path %>

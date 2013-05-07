@@ -1,0 +1,23 @@
+<%= form_for([@series, @series.events.build]) do |f| %>
+
+  <div class="field">
+    <%= f.label "Event name" %><br />
+    <%= f.text_field :EventName %>
+  </div>
+  <div class="field">
+    <%= f.label :Location %><br />
+    <%= f.text_field :Location %>
+  </div>
+  <div class="field">
+    <%= f.label :Completed %><br />
+    <%= f.check_box :Completed %>
+  </div>
+  <div class="field">
+    <%= f.label "Event date"%><br />
+    <%= datetime_select(:event, :EventDate) %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

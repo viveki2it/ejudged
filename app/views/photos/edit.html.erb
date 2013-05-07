@@ -1,0 +1,9 @@
+<h1>Editing photo</h1>
+
+<h3>Destroy the photo</h3>
+<%= link_to 'Destroy', @photo, method: :delete, data: { confirm: 'Are you sure?' } %>
+<br/>
+<br/>
+
+<%= link_to 'Show', @photo %> |
+<%= link_to 'Back', photos_path %>

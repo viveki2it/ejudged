@@ -1,0 +1,35 @@
+<h1>Listing events</h1>
+
+<table>
+  <tr>
+    <th>Eventname</th>
+    <th>Location</th>
+    <th>Completed</th>
+    <th>Serie</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @events.each do |event| %>
+  <tr>
+    <td><%= truncate(event.EventName, :lenght => 15) %></td>
+    <td><%= truncate(event.Location, :lenght => 15) %></td>
+    <td><%= event.Completed %></td>
+    <%if not event.serie.nil?%>
+        <td><%= truncate(event.serie.SeriesName, :lenght => 15) %></td>
+    <%else%>
+        <td>Unassigned</td>
+    <%end%>
+    <td><%= link_to 'Show', event %></td>
+    <td><%= link_to 'Edit', edit_event_path(event) %></td>
+    <td><%= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= paginate @events %>
+<br/>
+
+<%= link_to 'New Event', new_event_path %>

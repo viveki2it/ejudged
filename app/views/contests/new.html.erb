@@ -1,0 +1,39 @@
+<h1>New Contest</h1>
+
+<%= form_for(@contest) do |f| %>
+  <% if @contest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contest.errors.count, "error") %> prohibited this customer from being saved:</h2>
+
+      <ul>
+      <% @contest.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :ContestName %><br />
+    <%= f.text_field :ContestName %>
+  </div>
+
+  <div class="field">
+    <%= f.label :Event %>
+    <%= collection_select :contest, :event_id, Event.all, :id, :EventName %>
+  </div>
+
+  <div class="field">
+    <%= f.label :category %>
+    <%= collection_select :contest, :category_id, Category.all, :id, :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :JudgeSheet %>
+    <%= collection_select :contest, :judge_sheet_id, JudgeSheet.all, :id, :Name %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

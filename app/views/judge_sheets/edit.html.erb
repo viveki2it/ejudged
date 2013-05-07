@@ -1,0 +1,30 @@
+<h1>Editing judge_sheet</h1>
+
+<%= render 'form' %>
+<br/>
+
+<h3>Questions:</h3>
+<table>
+	<tr>
+		<td><b>Question Text:</b></td>
+    	<td><b>Minval:</b></td>
+    	<td><b>Maxval:</b></td>
+    	<td><b>Questiondescrip:</b></td>
+	</tr>
+<% @judge_sheet.questions.each do |question| %>
+	<tr>
+		<td><%= truncate(question.QuestionText , :lenght => 15)%></td>
+		<td><%= question.MinVal%></td>
+		<td><%= question.MaxVal%></td>
+		<td><%= truncate(question.QuestionDescrip, :lenght => 15)%></td>
+	</tr>
+<% end %>
+</table>
+<br/>
+
+<h3>Add a Question:</h3>
+<%= render 'questions/judgesheetform' %>
+<br/>
+
+<%= link_to 'Show', @judge_sheet %> |
+<%= link_to 'Back', judge_sheets_path %>

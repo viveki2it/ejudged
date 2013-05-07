@@ -1,0 +1,76 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Firstname:</b>
+  <%= @contact_info.FirstName %>
+</p>
+
+<p>
+  <b>Lastname:</b>
+  <%= @contact_info.LastName %>
+</p>
+
+<p>
+  <b>Middleinitial:</b>
+  <%= @contact_info.MiddleInitial %>
+</p>
+
+<p>
+  <b>Address1:</b>
+  <%= @contact_info.Address1 %>
+</p>
+
+<p>
+  <b>Address2:</b>
+  <%= @contact_info.Address2 %>
+</p>
+
+<p>
+  <b>Address3:</b>
+  <%= @contact_info.Address3 %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @contact_info.City %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @contact_info.State %>
+</p>
+
+<p>
+  <b>Zipcode:</b>
+  <%= @contact_info.ZipCode %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%= @contact_info.Phone %>
+</p>
+
+<p>
+  <b>Altphone:</b>
+  <%= @contact_info.AltPhone %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @contact_info.Email %>
+</p>
+
+<p>
+  <b>Customer?:</b>
+  <%if not @contact_info.customer.nil?%>
+    Yes, Club: <%= @contact_info.customer.club.ClubName %>
+  <%else%>
+    No.
+  <%end%>
+</p>
+<br/>
+
+
+<%= link_to 'Edit', edit_contact_info_path(@contact_info) %> |
+<%= link_to 'Back', contact_infos_path %>
+<br/>

@@ -1,0 +1,55 @@
+<h1>Listing results</h1>
+
+<table>
+  <tr>
+    <th>Value</th>
+    <th>Notes</th>
+    <th>Entry Make</th>
+    <th>Entry Model</th>
+    <th>Entry Year</th>
+    <th>Question</th>
+    <th>User</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @results.each do |result| %>
+  <tr>
+    <td><%= result.Value %></td>
+    <td><%= result.Notes %></td>
+
+    <% if not result.entry.nil? %>
+      <td><%= truncate(result.entry.Make, :lenght => 15)%></td>
+      <td><%= truncate(result.entry.Model, :lenght => 15)%></td>
+      <td><%= result.entry.Year%></td>
+    <% else %>
+      <td>Unassigned</td>
+      <td>Unassigned</td>
+      <td>Unassigned</td>
+    <% end %>
+
+    <% if not result.question.nil? %>
+      <td><%= truncate(result.question.QuestionText , :lenght => 15)%></td>
+    <% else %>
+      <td>Unassigned</td>
+    <% end %>
+
+    <% if not result.user.nil? %>
+      <td><%= truncate(result.user.Name, :lenght => 15) %></td>
+    <% else %>
+      <td>Unassigned</td>
+    <% end %>
+
+    <td><%= link_to 'Show', result %></td>
+    <td><%= link_to 'Edit', edit_result_path(result) %></td>
+    <td><%= link_to 'Destroy', result, :method => :delete, :data => { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= paginate @results %>
+<br/>
+
+<%= link_to 'New Result', new_result_path %>

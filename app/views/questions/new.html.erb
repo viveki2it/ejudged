@@ -1,0 +1,52 @@
+<h1>New question</h1>
+
+<%= form_for(@question) do |f| %>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this customer from being saved:</h2>
+
+      <ul>
+      <% @question.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :QuestionText %><br />
+    <%= f.text_field :QuestionText %>
+  </div>
+  <div class="field">
+    <%= f.label :MinVal %><br />
+    <%= f.number_field :MinVal %>
+  </div>
+  <div class="field">
+    <%= f.label :MaxVal %><br />
+    <%= f.number_field :MaxVal %>
+  </div>
+  <div class="field">
+    <%= f.label :QuestionDescrip %><br />
+    <%= f.text_field :QuestionDescrip %>
+  </div>
+  <div class="field">
+    <%= f.label :QuestionCategory %>
+    <%= collection_select :question, :question_category_id, QuestionCategory.all, :id, :Name %>
+  </div>
+  <div class="field">
+    <%= f.label :JudgeSheet %>
+    <%= collection_select :question, :judge_sheet_id, JudgeSheet.all, :id, :Name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :QuestionType %>
+    <%= collection_select :question, :question_type_id, QuestionType.all, :id, :Type %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to 'Back', questions_path %>

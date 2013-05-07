@@ -1,0 +1,65 @@
+<%= form_for(@contact_info) do |f| %>
+  <% if @contact_info.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contact_info.errors.count, "error") %> prohibited this contact_info from being saved:</h2>
+
+      <ul>
+      <% @contact_info.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :FirstName %><br />
+    <%= f.text_field :FirstName %>
+  </div>
+  <div class="field">
+    <%= f.label :LastName %><br />
+    <%= f.text_field :LastName %>
+  </div>
+  <div class="field">
+    <%= f.label :MiddleInitial %><br />
+    <%= f.text_field :MiddleInitial %>
+  </div>
+  <div class="field">
+    <%= f.label :Address1 %><br />
+    <%= f.text_field :Address1 %>
+  </div>
+  <div class="field">
+    <%= f.label :Address2 %><br />
+    <%= f.text_field :Address2 %>
+  </div>
+  <div class="field">
+    <%= f.label :Address3 %><br />
+    <%= f.text_field :Address3 %>
+  </div>
+  <div class="field">
+    <%= f.label :City %><br />
+    <%= f.text_field :City %>
+  </div>
+  <div class="field">
+    <%= f.label :State %><br />
+    <%= f.text_field :State %>
+  </div>
+  <div class="field">
+    <%= f.label :ZipCode %><br />
+    <%= f.text_field :ZipCode %>
+  </div>
+  <div class="field">
+    <%= f.label :Phone %><br />
+    <%= f.text_field :Phone %>
+  </div>
+  <div class="field">
+    <%= f.label :AltPhone %><br />
+    <%= f.text_field :AltPhone %>
+  </div>
+  <div class="field">
+    <%= f.label :Email %><br />
+    <%= f.text_field :Email %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

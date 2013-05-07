@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  QuestionText: MyText
+  Required: false
+  MinVal: 1
+  MaxVal: 1
+  IncludeInTotal: false
+  JudgesOnly: false
+  OrganizersOnly: false
+  Position: 1
+  Weight: 1
+  QuestionDescrip: MyString
+  question_category: 
+  question_type: 
+  judge_sheet: 
+
+two:
+  QuestionText: MyText
+  Required: false
+  MinVal: 1
+  MaxVal: 1
+  IncludeInTotal: false
+  JudgesOnly: false
+  OrganizersOnly: false
+  Position: 1
+  Weight: 1
+  QuestionDescrip: MyString
+  question_category: 
+  question_type: 
+  judge_sheet: 

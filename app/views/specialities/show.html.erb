@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Type:</b>
+  <%= @speciality.Type %>
+</p>
+
+<p>
+  <b>Freezedentry:</b>
+  <% if @speciality.FreezedEntry != nil
+        @entry = Entry.find(@speciality.FreezedEntry)
+  %>
+    <%= @entry.full_name %>
+  <%end%>
+</p>
+
+<h3>Events:</h3>
+<table>
+  <tr>
+    <td><b>Event Name:</b></td>
+    <td><b>Link to Event:</b></td>
+  </tr>
+<% @speciality.events.each do |event| %>
+  <tr>
+    <td><%= event.EventName %></td>
+    <td><%= link_to "Event Details", event%>
+  </tr>
+<% end %>
+</table>
+
+<h3>Entries:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>Registration Number:</b></td>
+    <td><b>Entry Type:</b></td>
+    <td><b>Make:</b></td>
+    <td><b>Model:</b></td>
+    <td><b>Year:</b></td>
+    <td><b>Link to Entry:</b></td>
+  </tr>
+<% @speciality.entries.each do |entry| %>
+  <tr>
+    <td><%= entry.RegistrationType %></td>
+    <td><%= entry.Make %></td>
+    <td><%= entry.Model %></td>
+    <td><%= entry.Year %></td>
+    <td><%= entry.RegistrationNumber %></td>
+    <td><%= link_to "Entry Details", entry%>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_speciality_path(@speciality) %> |
+<%= link_to 'Back', specialities_path %>
+<br/>

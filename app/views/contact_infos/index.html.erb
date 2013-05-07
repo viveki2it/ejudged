@@ -1,0 +1,49 @@
+<h1>Listing contact information</h1>
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Middleinitial</th>
+    <th>Address1</th>
+    <th>Address2</th>
+    <th>Address3</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Zipcode</th>
+    <th>Phone</th>
+    <th>Altphone</th>
+    <th>Email</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @contact_infos.each do |contact_info| %>
+  <tr>
+    <td><%= contact_info.id %></td>
+    <td><%= truncate(contact_info.FirstName, :lenght => 15) %></td>
+    <td><%= truncate(contact_info.LastName, :lenght => 15) %></td>
+    <td><%= truncate(contact_info.MiddleInitial, :lenght => 15) %></td>
+    <td><%= truncate(contact_info.Address1, :lenght => 15) %></td>
+    <td><%= truncate(contact_info.Address2, :lenght => 15) %></td>
+    <td><%= truncate(contact_info.Address3, :lenght => 15) %></td>
+    <td><%= truncate(contact_info.City, :lenght => 15) %></td>
+    <td><%= truncate(contact_info.State, :lenght => 15) %></td>
+    <td><%= contact_info.ZipCode %></td>
+    <td><%= contact_info.Phone %></td>
+    <td><%= contact_info.AltPhone %></td>
+    <td><%= truncate(contact_info.Email, :lenght => 15) %></td>
+    <td><%= link_to 'Show', contact_info %></td>
+    <td><%= link_to 'Edit', edit_contact_info_path(contact_info) %></td>
+    <td><%= link_to 'Destroy', contact_info, :method => :delete, :data => { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+
+<%= paginate @contact_infos %>
+<br/>
+
+<%= link_to 'New Contact info', new_contact_info_path %>

@@ -1,0 +1,27 @@
+<%= form_for(@user) do |f| %>
+
+  <div class="field">
+    <%= f.label 'Username' %><br />
+    <%= f.text_field :Name %>
+  </div>
+  <div class="field">
+    <%= f.label :Password %><br />
+    <%= f.password_field :Password %>
+  </div>
+  <div class="field">
+    <%= f.label "Role" %><br />
+    <%= f.select :role_ids, Role.all.collect {|x| [x.RoleName, x.id]}, {},:selected => @user.roles.map {|x| x.id}, :multiple => true %>stores
+  </div>
+  <div class="field">
+    <%= f.label "Contact id" %><br />
+    <%= f.select :contact_info_id, ContactInfo.all.collect {|x| [ x.FirstName.concat(" ").concat( x.LastName), x.id]} %>
+    <%= link_to 'Contact information', contact_infos_path %>
+  </div>
+  <div class="field">
+    <%= f.label "Assigned Events" %><br />
+    <%= f.select :event_ids, Event.all.collect {|x| [x.EventName, x.id]},{},:selected => @user.events.map {|x| x.id}, :multiple => true %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

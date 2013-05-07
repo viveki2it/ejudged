@@ -1,0 +1,30 @@
+<p>
+  <b>Serie name:</b>
+  <%= @series.SeriesName %>
+</p>
+
+<p>
+  <b>Completed:</b>
+  <%= @series.Completed %>
+</p>
+
+<h3>Events:</h3>
+<table>
+	<tr>
+		<td><b>Event name:</b></td>
+		<td><b>Event Location:</b></td>
+		<td><b>Event Link</b></td>
+	</tr>
+<% @series.events.each do |event| %>
+	<tr>
+		<td><%= truncate(event.EventName, :lenght => 15)%></td>
+		<td><%= truncate(event.Location, :lenght => 15) %></td>
+		<td><%= link_to "Event Details", event %>
+	</tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_serie_path(@series) %> |
+<%= link_to 'Back', series_path %>
+</br>

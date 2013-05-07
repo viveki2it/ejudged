@@ -1,0 +1,37 @@
+<h1>Editing contests</h1>
+
+<%= form_for(@contest) do |f| %>
+
+  <div class="field">
+    <%= f.label :ContestName %><br />
+    <%= f.text_field :ContestName %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :Event %>
+    <%= collection_select :contest, :event_id, Event.all, :id, :EventName %>
+  </div>
+
+  <div class="field">
+    <%= f.label :Category %>
+    <%= collection_select :contest, :category_id, Category.all, :id, :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :JudgeSheet %>
+    <%= collection_select :contest, :judge_sheet_id, JudgeSheet.all, :id, :Name %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<br/>
+
+<h3>Add an Entry:</h3>
+<%= render "entries/contestform" %>
+<br/>
+
+<%= link_to 'Show', @contest %> |
+<%= link_to 'Back', contests_path %>

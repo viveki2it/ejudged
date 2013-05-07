@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Value:</b>
+  <%= @token.Value %>
+</p>
+
+<p>
+  <b>Expirationdate:</b>
+  <%= @token.ExpirationDate %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @token.user %>
+</p>
+
+
+<%= link_to 'Edit', edit_token_path(@token) %> |
+<%= link_to 'Back', tokens_path %>
+<br/>

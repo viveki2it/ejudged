@@ -1,0 +1,22 @@
+<%= form_for([@entry, @entry.results.build]) do |f| %>
+  
+  <div class="field">
+    <%= f.label :Notes %><br />
+    <%= f.text_field :Notes %>
+  </div>
+
+  <div class="field">
+    <%= f.label :Value %><br />
+    <%= f.number_field :Value %>
+  </div>
+
+  <div class="field">
+    <%= f.label :question %>
+    <%= collection_select :result, :question_id, Question.all, :id, :QuestionText %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  
+<% end %>

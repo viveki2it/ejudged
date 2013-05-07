@@ -1,0 +1,140 @@
+<p id="notice"><%= notice %></p>
+
+
+<b>Photo:</b>
+<br/>
+<%if @entry.photos.length > 0%>
+  <table style="border-bottom-style: solid;border-top-style: solid;">
+  <% @entry.photos.each do |photo| %>
+    <tr>
+        <%= link_to image_tag(photo.photo.url(:thumb)), photo %>
+    </tr>
+
+  <% end %>
+  </table>
+  <br/>
+<%else%>
+  <%= image_tag("/assets/ejudgedcar4.png", :alt => "Default Photo")%>
+<%end%>
+
+
+<p>
+  <b>User:</b>
+  <%if not @entry.user.nil?%>
+    <%= link_to @entry.user.Name, @entry.user%>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
+  <b>Created:</b>
+  <%= @entry.Created %>
+</p>
+
+<p>
+  <b>Club:</b>
+  <%if not @entry.club.nil?%>
+    <%= link_to @entry.club.ClubName, @entry.club%>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
+  <b>Contest:</b>
+  <%if not @entry.contest.nil?%>
+    <%= link_to @entry.contest.ContestName, @entry.contest %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
+  <b>Customer:</b>
+  <%if not @entry.customer.nil?%>
+    <%if not @entry.customer.contact_info.nil?%>
+      <%= link_to @entry.customer.contact_info.FirstName + ' ' + @entry.customer.contact_info.LastName, @entry.customer%>
+    <%else%>
+      <%= link_to @entry.customer.id, @entry.customer %>
+    <%end%>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
+  <b>RegistrationType:</b>
+  <%= @entry.RegistrationType %>
+</p>
+
+<p>
+  <b>RegistrationNumber:</b>
+  <%= @entry.RegistrationNumber %>
+</p>
+
+<p>
+  <b>Year:</b>
+  <%= @entry.Year %>
+</p>
+
+<p>
+  <b>Make:</b>
+  <%= @entry.Make %>
+</p>
+
+<p>
+  <b>Model:</b>
+  <%= @entry.Model %>
+</p>
+
+<p>
+  <b>Score:</b>
+  <%= @entry.Score %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @entry.Notes %>
+</p>
+
+<h3>Results:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>Result Value:</b></td>
+    <td><b>Question:</b></td>
+    <td><b>Result Link:</b></td>
+  </tr>
+<% @entry.results.each do |result| %>
+  <tr>
+    <td><%=result.Value%></td>
+    <%if not result.question.nil?%>
+      <td><%= result.question.QuestionText%></td>
+    <%else%>
+      <td>Unassigned</td>
+      <td>Unassigned</td>
+    <%end%>
+    <td><%= link_to "Result Details",result%></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<h3>Specialities:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>Type:</b></td>
+    <td><b>Speciality Link:</b></td>
+  </tr>
+<% @entry.specialities.each do |speciality| %>
+  <tr>
+    <td><%= speciality.Type%></td>
+    <td><%= link_to "Speciality Details", speciality%></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_entry_path(@entry) %> |
+<%= link_to 'Back', entries_path %>
+<br/>

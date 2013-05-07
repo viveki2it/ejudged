@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  Type: MyString
+  FreezedEntry: 1
+  event: 
+
+two:
+  Type: MyString
+  FreezedEntry: 1
+  event: 

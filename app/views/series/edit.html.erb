@@ -1,0 +1,25 @@
+<h2>Editing series</h2>
+
+<%= render 'form' %>
+<br/>
+
+<h3>Events:</h3>
+<table style="border-collapse: collapse;">
+	<tr>
+		<td style="border:1px solid black;"><b>Event name:</b></td>
+		<td style="border:1px solid black;"><b>Event Location:</b></td>
+	</tr>
+<% @series.events.each do |event| %>
+	<tr>
+		<td style="border:1px solid black;"><%= truncate(event.EventName, :lenght => 15)%></td>
+		<td style="border:1px solid black;"><%= truncate(event.Location, :lenght => 15) %></td>
+	</tr>
+<% end %>
+</table>
+<br/>
+
+<h3>Add an Event:</h3>
+<%= render "events/form" %>
+
+<%= link_to 'Show', @series %> |
+<%= link_to 'Back', series_path %>

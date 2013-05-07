@@ -1,0 +1,75 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Questiontext:</b>
+  <%= @question.QuestionText %>
+</p>
+
+<p>
+  <b>Minval:</b>
+  <%= @question.MinVal %>
+</p>
+
+<p>
+  <b>Maxval:</b>
+  <%= @question.MaxVal %>
+</p>
+
+<p>
+  <b>Questiondescrip:</b>
+  <%= @question.QuestionDescrip %>
+</p>
+
+<p>
+  <b>Question category:</b>
+  <%if not @question.question_category.nil?%>
+    <%= link_to @question.question_category.Name, @question.question_category %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
+  <b>Judge sheet:</b>
+  <%if not @question.judge_sheet.nil?%>
+    <%= link_to @question.judge_sheet.Name, @question.judge_sheet %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
+  <b>Question Type:</b>
+  <%if not @question.question_type.nil?%>
+    <%= link_to @question.question_type.Type, @question.question_type %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+<br/>
+
+<h3>Results:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>Result Value:</b></td>
+    <td><b>Question:</b></td>
+    <td><b>Result Link:</b></td>
+  </tr>
+<% @question.results.each do |result| %>
+  <tr>
+    <td><%=result.Value%></td>
+    <%if not result.question.nil?%>
+      <td><%= result.question.QuestionText%></td>
+    <%else%>
+      <td>Unassigned</td>
+      <td>Unassigned</td>
+    <%end%>
+    <td><%= link_to "Result Details",result%></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>
+<br/>

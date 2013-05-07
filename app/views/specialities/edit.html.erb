@@ -1,0 +1,21 @@
+<h1>Editing speciality</h1>
+
+<%= form_for(@speciality) do |f| %>
+
+  <div class="field">
+    <%= f.label :Type %><br />
+    <%= f.text_field :Type %>
+  </div>
+
+  <div class="field">
+    <%= f.label "FreezedEntry" %>
+    <%= collection_select :speciality, :FreezedEntry, Entry.all, :id, :full_name, :include_blank => ""%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to 'Show', @speciality %> |
+<%= link_to 'Back', specialities_path %>

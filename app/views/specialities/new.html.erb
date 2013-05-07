@@ -1,0 +1,32 @@
+<h1>New speciality</h1>
+
+<%= form_for(@speciality) do |f| %>
+  <% if @speciality.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@speciality.errors.count, "error") %> prohibited this customer from being saved:</h2>
+
+      <ul>
+      <% @speciality.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :Type %><br />
+    <%= f.text_field :Type %>
+  </div>
+
+  <div class="field">
+    <%= f.label "FreezedEntry" %>
+    <%= collection_select :speciality, :FreezedEntry, Entry.all, :id, :full_name, :include_blank => ""%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to 'Back', specialities_path %>
