@@ -2,7 +2,7 @@ class QuestionCategoriesController < ApplicationController
   # GET /question_categories
   # GET /question_categories.json
   def index
-    @question_categories = QuestionCategory.all
+    @question_categories = QuestionCategory.order("position_number")
 
     if not ((request.format == "json") and (not params[:page].present?))
       @question_categories = Kaminari.paginate_array(@question_categories).page(params[:page]).per(10)
@@ -45,6 +45,16 @@ class QuestionCategoriesController < ApplicationController
   # POST /question_categories.json
   def create
     @question_category = QuestionCategory.new(params[:question_category])
+
+    if @question_category.position_number.nil?
+       @order = QuestionCategory.order("position_number")
+       if @order != nil
+          @last = @order.last.position_number + 1
+       else
+          @last = 1
+       end
+       @question_category.position_number = @last
+    end
 
     respond_to do |format|
       if @question_category.save

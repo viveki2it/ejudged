@@ -147,15 +147,21 @@ class VoteController < ApplicationController
 				@questions = @judgeSheet.questions
 
 				@returnMap = Hash.new
+				@position = Hash.new
+				@question_category_position = Array.new
 				@questions.each do |q|
-					if @returnMap[q.question_category.Name].nil?
+					if @returnMap[q.question_category.Name].nil?						
 						@returnMap[q.question_category.Name] = []
+						@returnMap[q.question_category.Name][0] = []
+						#@position = []
+						#@position["Position"] = 
+						@returnMap[q.question_category.Name][1] = q.question_category.position_number
 					end
 					@itemm = Hash.new
 					@itemm["question"] = q
 					#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
 					@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
-					@returnMap[q.question_category.Name].push(@itemm)
+					@returnMap[q.question_category.Name][0].push(@itemm)
 				end
 
 				#listing specialities
