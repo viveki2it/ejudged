@@ -35,7 +35,11 @@ class VoteController < ApplicationController
 					 			if not @answer["id"].present?
 					 				if (@user.roles & Role.find([1])).empty?	#!admin
 						 				@result = Result.new
-						 				@result.Value = @answer["Value"]
+						 				if (not @question_type.nil?) and @question_type.Type != "Notes"
+						 					@result.Value = @answer["Value"]
+						 				else
+						 					@result.Notes = @answer["Notes"]
+						 				end
 						 				@result.entry = @entry
 						 				@result.question = @question
 						 				@result.user = @user
