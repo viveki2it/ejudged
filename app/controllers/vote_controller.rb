@@ -59,6 +59,7 @@ class VoteController < ApplicationController
 						 				else
 						 					@result.Notes = @answer["Notes"]
 						 				end
+						 				@result.user = @user
 					 					@result.save
 					 					@result = Result.find(@answer["id"])
 
