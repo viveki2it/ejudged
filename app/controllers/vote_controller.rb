@@ -50,14 +50,15 @@ class VoteController < ApplicationController
 						 			end					 				
 					 			else
 					 				@result = Result.find(@answer["id"])
-					 				if (not @question_type.nil?) and @question_type.Type != "Notes"
-					 					@result.Value = @answer["Value"]
-					 				else
-					 					@result.Notes = @answer["Notes"]
-					 				end
+					 				
 
 					 				#if not the orignial user and not admin => can't change.
 					 				if ( @user.id == @result.user.id || (not (@user.roles & Role.find([1, 2])).empty?) )
+					 					if (not @question_type.nil?) and @question_type.Type != "Notes"
+						 					@result.Value = @answer["Value"]
+						 				else
+						 					@result.Notes = @answer["Notes"]
+						 				end
 					 					@result.save
 					 					@result = Result.find(@answer["id"])
 
