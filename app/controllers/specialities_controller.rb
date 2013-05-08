@@ -6,14 +6,30 @@ class SpecialitiesController < ApplicationController
     if params[:event_id].present? and params[:page].present?
       @specialities = Speciality.where("id IN(?)", getSpecialityEvents(params[:event_id])).page(params[:page]).per(10)
 
+      @specialities.each do |sp|
+        sp[:eventID] = params[:event_id]
+      end
+      
     elsif params[:event_id].present?
       @specialities = Speciality.where("id IN(?)", getSpecialityEvents(params[:event_id]))
-      
+
+      @specialities.each do |sp|
+        sp[:eventID] = params[:event_id]
+      end
+
     elsif params[:page].present?
       @specialities = Speciality.page(params[:page]).per(10)
 
+      @specialities.each do |sp|
+        sp[:eventID] = -1
+      end
+
     else
       @specialities = Speciality.all
+
+      @specialities.each do |sp|
+        sp[:eventID] = -1
+      end
 
     end
 
