@@ -33,18 +33,19 @@ class VoteController < ApplicationController
 					 		@answer = q["answer"]
 					 		if @answer != nil 
 					 			if not @answer["id"].present?
-					 				if (@user.roles & Role.find([1])).empty?	#!admin
+					 				if (@user.roles & Role.find([1])).empty?# and @entry.results.size == 0 #!admin
 						 				@result = Result.new
-						 				if (not @question_type.nil?) and @question_type.Type != "Notes"
+						 				
+						 				if (not @question_type.nil?) and (@question_type.Type != "Notes")
 						 					@result.Value = @answer["Value"]
 						 				else
 						 					@result.Notes = @answer["Notes"]
 						 				end
+						 				
 						 				@result.entry = @entry
 						 				@result.question = @question
 						 				@result.user = @user
 						 				@result.save
-						 				@result.id
 
 						 				@modified = true
 						 				@col_answer.push(@answer)
@@ -58,7 +59,7 @@ class VoteController < ApplicationController
 
 					 				#if not the orignial user and not admin => can't change.
 					 				if ( @user.id == @result.user.id || (not (@user.roles & Role.find([1, 2])).empty?) )
-					 					if (not @question_type.nil?) and @question_type.Type != "Notes"
+					 					if (not @question_type.nil?) and (@question_type.Type != "Notes")
 						 					@result.Value = @answer["Value"]
 						 				else
 						 					@result.Notes = @answer["Notes"]
@@ -132,7 +133,7 @@ class VoteController < ApplicationController
 	  			@return.push(@col_answer,@specialities_record, @entry)
 	  			render :json => @return
 	  		else
-	  			render :json => {error:"This event has past."}, :status => :unprocessable_entity
+	  			render :json => {error:"This event had past."}, :status => :unprocessable_entity
 	  		end
   		rescue Exception => e
 				render :json => {error:"couldn't find required entity", err_description: e.message}, :status => :unprocessable_entity 
@@ -157,8 +158,6 @@ class VoteController < ApplicationController
 					if @returnMap[q.question_category.Name].nil?						
 						@returnMap[q.question_category.Name] = []
 						@returnMap[q.question_category.Name][0] = []
-						#@position = []
-						#@position["Position"] = 
 						@returnMap[q.question_category.Name][1] = q.question_category.position_number
 					end
 					@itemm = Hash.new
