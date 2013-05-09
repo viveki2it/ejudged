@@ -16,49 +16,49 @@ class CategoriesController < ApplicationController
     end
 
     if params[:event_id].present? and params[:filter].present? and params[:type].present? and params[:type] == "none"
-      if is_admin_or_event_manager(@user)
+      if is_admin(@user)
         @cats = @categories.map { |c| [c, Contest.where("ContestName LIKE ? and category_id = ? and event_id = ?", "%#{params[:filter]}%", c.id, params[:event_id])]}
       else
         @cats = @categories.map { |c| [c, Contest.where("ContestName LIKE ? and category_id = ? and event_id = ? and event_id IN(?)", "%#{params[:filter]}%", c.id, params[:event_id], get_user_events(@user))]}
       end
 
     elsif params[:filter].present? and params[:type].present? and params[:type] == "none"
-      if is_admin_or_event_manager(@user)
+      if is_admin(@user)
         @cats = @categories.map { |c| [c, Contest.where("ContestName LIKE ? and category_id = ?", "%#{params[:filter]}%", c.id)]}
       else
         @cats = @categories.map { |c| [c, Contest.where("ContestName LIKE ? and category_id = ? and event_id IN(?)", "%#{params[:filter]}%", c.id, get_user_events(@user))]}
       end
 
     elsif params[:event_id].present? and params[:type].present? and params[:type] == "none"
-      if is_admin_or_event_manager(@user)
+      if is_admin(@user)
         @cats = @categories.map { |c| [c, Contest.where("category_id = ? and event_id = ?", c.id, params[:event_id])]}
       else
         @cats = @categories.map { |c| [c, Contest.where("category_id = ? and event_id = ? and event_id IN(?)", c.id, params[:event_id], get_user_events(@user))]}
       end
 
     elsif params[:event_id].present? and params[:type].present? and params[:type] == "score" 
-      if is_admin_or_event_manager(@user)
+      if is_admin(@user)
         @cats = @categories.map { |c| [c, Contest.where("category_id = ? and event_id = ?", c.id, params[:event_id]).map {|e| [e, Entry.where("contest_id = ? and id IN(?)", e.id, topfive(e.id)).order("Score DESC")] } ]} 
       else
         @cats = @categories.map { |c| [c, Contest.where("category_id = ? and event_id = ? and event_id IN(?)", c.id, params[:event_id], get_user_events(@user)).map {|e| [e, Entry.where("contest_id = ? and id IN(?)", e.id, topfive(e.id)).order("Score DESC")] } ]} 
       end
 
     elsif params[:type].present? and params[:type] == "none"
-      if is_admin_or_event_manager(@user)
+      if is_admin(@user)
         @cats = @categories.map { |c| [c, Contest.where("category_id = ?", c.id)]} 
       else
         @cats = @categories.map { |c| [c, Contest.where("category_id = ? and event_id IN(?)", c.id, get_user_events(@user))]} 
       end
 
     elsif params[:type].present? and params[:type] == "score"
-      if is_admin_or_event_manager(@user)
+      if is_admin(@user)
         @cats = @categories.map { |c| [c, Contest.where("category_id = ? ", c.id).map {|e| [e, Entry.where("contest_id = ? and id IN(?)", e.id, topfive(e.id)).order("Score DESC")] } ]} 
       else
         @cats = @categories.map { |c| [c, Contest.where("category_id = ? and event_id IN(?)", c.id, get_user_events(@user)).map {|e| [e, Entry.where("contest_id = ? and id IN(?)", e.id, topfive(e.id)).order("Score DESC")] } ]} 
       end
 
     else
-      if is_admin_or_event_manager(@user)
+      if is_admin(@user)
         @cats = @categories.map { |c| [c, Contest.where("category_id = ?", c.id)]} 
       else
         @cats = @categories.map { |c| [c, Contest.where("category_id = ? and event_id IN(?)", c.id, get_user_events(@user))]} 
@@ -146,8 +146,8 @@ class CategoriesController < ApplicationController
 
   private
 
-  def is_admin_or_event_manager(current_user)
-    return not((current_user.roles & Role.find([1, 2])).empty?)
+  def is_admin(current_user)
+    return not((current_user.roles & Role.find([1])).empty?)
   end
 
   def get_user_events(current_user)
