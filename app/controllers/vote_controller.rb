@@ -133,7 +133,7 @@ class VoteController < ApplicationController
 	  			@return.push(@col_answer,@specialities_record, @entry)
 	  			render :json => @return
 	  		else
-	  			render :json => {error:"This event had past."}, :status => :unprocessable_entity
+	  			render :json => {error:"This event has past."}, :status => :unprocessable_entity
 	  		end
   		rescue Exception => e
 				render :json => {error:"couldn't find required entity", err_description: e.message}, :status => :unprocessable_entity 
