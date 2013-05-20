@@ -4,7 +4,7 @@ class Speciality < ActiveRecord::Base
   has_many :entries, :through => :entry_specialities
   has_many :event_specialities
   
-  attr_accessible :FreezedEntry, :Type, :eventID
+  attr_accessible :Type, :eventID
   validates :Type, :presence => true, :uniqueness => true
 
 def as_json(options = {})
@@ -16,9 +16,10 @@ def as_json(options = {})
     @contest_entries = Array.new
 
     if @event_id != -1
-      @check_event = true
-      @event = Event.find(@event_id)
+      @check_event = true      
+      @event = Event.find(@event_id)      
       @contests = @event.contests
+      @event_speciality = EventSpeciality.where("speciality_id = ? and event_id = ?",self.id, @event.id).first
 
       @contests.each do |contest|
         @contest_entries = contest.entries
@@ -32,7 +33,7 @@ def as_json(options = {})
       if @check_event
         if @event_entries.include?(e.id) 
           e[:freezed] = false
-          if (e.id == self.FreezedEntry)
+          if (e.id == @event_speciality.FreezedEntry)
               e[:freezed] = true
           end
           if not @jsonarrayids.include?(e.id)
@@ -42,7 +43,7 @@ def as_json(options = {})
         end
       else
           e[:freezed] = false
-          if (e.id == self.FreezedEntry)
+          if (e.id == @event_speciality.FreezedEntry)
               e[:freezed] = true
           end
           if not @jsonarrayids.include?(e.id)

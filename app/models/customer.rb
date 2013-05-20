@@ -12,6 +12,10 @@ class Customer < ActiveRecord::Base
   end
 
   def full_name
-    return self.contact_info.FirstName + ' ' + self.contact_info.LastName
+    if self.contact_info != nil
+      return self.contact_info.FirstName + ' ' + self.contact_info.LastName
+    else
+      return ' '
+    end
   end
 end

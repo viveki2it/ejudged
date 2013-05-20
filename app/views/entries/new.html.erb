@@ -54,7 +54,7 @@
 
   <div class="field">
     <%= f.label :Contest %>
-    <%= collection_select :entry, :contest_id, Contest.all, :id, :ContestName %>
+    <%= collection_select :entry, :contest_id, Contest.all, :id, :full_name %>
   </div>
 
   <div class="field">

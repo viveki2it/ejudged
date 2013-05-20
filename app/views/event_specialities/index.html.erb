@@ -1,0 +1,37 @@
+<h1>Listing Freezing Information</h1>
+
+<table>
+  <tr>
+    <th>Eventname</th>
+    <th>Speciality</th>
+    <th>Freezed Entry</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @event_specialities.each do |event_speciality| %>
+	  <tr>
+	  	<%if event_speciality.event != nil%>
+	    	<td><%= event_speciality.event.EventName %></td>
+	    <%else%>
+	    	<td>Unassigned</td>
+	    <%end%>
+	    <%if event_speciality.speciality != nil%>
+	    	<td><%= event_speciality.speciality.Type %></td>
+	    <%else%>
+	    	<td>Unassigned</td>
+	    <%end%>
+	    <%if event_speciality.FreezedEntry != nil
+          @entry = Entry.find(event_speciality.FreezedEntry)
+      	%>
+      	<td><%= @entry.full_name %></td>
+    	<%else%>
+      		<td>N/A</td>
+    	<%end%>
+
+	    <td><%= link_to 'Show', event_speciality %></td>
+    	<td><%= link_to 'Edit', edit_event_speciality_path(event_speciality) %></td>
+	  </tr>
+  <% end %>
+
+</table>

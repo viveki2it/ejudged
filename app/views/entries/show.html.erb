@@ -17,16 +17,6 @@
   <%= image_tag("/assets/ejudgedcar4.png", :alt => "Default Photo")%>
 <%end%>
 
-
-<p>
-  <b>User:</b>
-  <%if not @entry.user.nil?%>
-    <%= link_to @entry.user.Name, @entry.user%>
-  <%else%>
-    Unassigned
-  <%end%>
-</p>
-
 <p>
   <b>Club:</b>
   <%if not @entry.club.nil?%>

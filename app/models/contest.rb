@@ -7,6 +7,15 @@ class Contest < ActiveRecord::Base
   has_many :final_results
   has_many :entries
 
-  validates :ContestName, :presence => true, :uniqueness => true
+  validates :ContestName, :presence => true
   validates :judge_sheet_id, :event_id, :category_id, :presence => true
+
+  def full_name
+  	fullName = self.ContestName
+  	if self.event != nil
+  		fullName = fullName + ', Event: ' + self.event.EventName
+  	end
+  	return fullName
+  end
+
 end

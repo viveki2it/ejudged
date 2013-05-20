@@ -1,0 +1,16 @@
+<h1>Editing Freezing entry</h1>
+
+<%= form_for(@event_speciality) do |f| %>
+
+  <div class="field">
+    <%= f.label "Freezed Entry" %>
+    <%= collection_select :event_speciality, :FreezedEntry, Entry.where("id IN(?)", @event_speciality.getEntriesEvent), :id, :full_name, :include_blank => ""%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>
+
+<%= link_to 'Show', @event_speciality %> |
+<%= link_to 'Back', event_specialities_path %>

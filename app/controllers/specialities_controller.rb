@@ -94,18 +94,6 @@ class SpecialitiesController < ApplicationController
   def update
     @speciality = Speciality.find(params[:id])
 
-    if params[:freeze].present? and params[:token].present? and (not @speciality.nil?)
-      @token = Token.where("Value = ?", params[:token]).first
-      @entry = Entry.where(:id => params[:freeze])
-
-      if (not @token.nil?) and (not @entry.size == 0)
-        @user = @token.user
-        if is_admin(@user)
-          @speciality.FreezedEntry = params[:freeze]
-        end
-      end
-    end
-
     respond_to do |format|
       if @speciality.update_attributes(params[:speciality])
         format.html { redirect_to @speciality, notice: 'Speciality was successfully updated.' }
@@ -142,21 +130,36 @@ class SpecialitiesController < ApplicationController
           @entry_id = pair["entry_id"]
 
           @speciality = Speciality.find(@speciality_id)
-          @speciality.FreezedEntry = @entry_id
-          @speciality.save
+          @entryCar = Entry.find(@entry_id)
+          @contestEntry = @entryCar.contest
+          @eventEntry = @contestEntry.event
+          @event_speciality = EventSpeciality.where("speciality_id = ? and event_id = ?", @speciality.id, @eventEntry.id).first
+          @event_speciality.FreezedEntry = @entry_id
+          @event_speciality.save
+
+          @eventContests = @eventEntry.contests
+          @eventEntries = Array.new
+          @eventContests.each do |eventContest|
+            @contestEntries = eventContest.entries
+            @contestEntries.each do |contestEntry|
+              @eventEntries.push(contestEntry.id)
+            end
+          end
 
           @nominated_entries = []
           @speciality.entries.each do |ne|
-            if ne.id == @entry_id
-              @nominatedcar = Hash.new
-              @nominatedcar["entry"] = ne
-              @nominatedcar["freezed"] = true
-              @nominated_entries.push @nominatedcar
-            else
-              @nominatedcar = Hash.new
-              @nominatedcar["entry"] = ne
-              @nominatedcar["freezed"] = false
-              @nominated_entries.push @nominatedcar
+            if @eventEntries.include?(ne.id)
+              if ne.id == @entry_id
+                @nominatedcar = Hash.new
+                @nominatedcar["entry"] = ne
+                @nominatedcar["freezed"] = true
+                @nominated_entries.push @nominatedcar
+              else
+                @nominatedcar = Hash.new
+                @nominatedcar["entry"] = ne
+                @nominatedcar["freezed"] = false
+                @nominated_entries.push @nominatedcar
+              end
             end
           end
           @result[@speciality.Type] = @nominated_entries

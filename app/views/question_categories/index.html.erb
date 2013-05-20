@@ -1,8 +1,9 @@
-<h1>Listing question_categories</h1>
+<h1>Listing Question categories</h1>
 
 <table>
   <tr>
     <th>Name</th>
+    <th>Position Number</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,6 +12,7 @@
 <% @question_categories.each do |question_category| %>
   <tr>
     <td><%= truncate(question_category.Name, :lenght => 15) %></td>
+    <td><%=question_category.position_number%></td>
     <td><%= link_to 'Show', question_category %></td>
     <td><%= link_to 'Edit', edit_question_category_path(question_category) %></td>
     <td><%= link_to 'Destroy', question_category, :method => :delete, :data => { confirm: 'Are you sure?' } %></td>

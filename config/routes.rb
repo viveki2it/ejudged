@@ -1,5 +1,7 @@
 EJudged::Application.routes.draw do
 
+  resources :event_specialities
+  
   resources :results
 
 

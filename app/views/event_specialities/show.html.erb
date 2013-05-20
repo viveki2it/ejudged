@@ -1,0 +1,12 @@
+<p>
+  <b>Freezedentry:</b>
+  <% if @event_speciality.FreezedEntry != nil
+        @entry = Entry.find(@event_speciality.FreezedEntry)
+  %>
+    <%= @entry.full_name %>
+  <%end%>
+</p>
+
+<%= link_to 'Edit', edit_event_speciality_path(@event_speciality) %> |
+<%= link_to 'Back', event_specialities_path %>
+<br/>

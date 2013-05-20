@@ -7,10 +7,6 @@
     <%= f.text_field :Type %>
   </div>
 
-  <div class="field">
-    <%= f.label "FreezedEntry" %>
-    <%= collection_select :speciality, :FreezedEntry, Entry.all, :id, :full_name, :include_blank => ""%>
-  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

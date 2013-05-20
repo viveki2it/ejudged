@@ -5,15 +5,6 @@
   <%= @speciality.Type %>
 </p>
 
-<p>
-  <b>Freezedentry:</b>
-  <% if @speciality.FreezedEntry != nil
-        @entry = Entry.find(@speciality.FreezedEntry)
-  %>
-    <%= @entry.full_name %>
-  <%end%>
-</p>
-
 <h3>Events:</h3>
 <table>
   <tr>

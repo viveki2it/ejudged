@@ -6,7 +6,11 @@ class ContactInfo < ActiveRecord::Base
   validates :FirstName, :LastName, :presence => true
   
   def full_name
-    return self.FirstName + ' ' + self.LastName
+  	if (self.FirstName != nil) and (self.LastName != nil)
+    	return self.FirstName + ' ' + self.LastName
+    else
+    	return ' '
+    end
   end
 
 end

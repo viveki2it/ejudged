@@ -22,7 +22,11 @@ class Entry < ActiveRecord::Base
   end
 
   def full_name
-    return  self.Make + ' ' + self.Model + ' ' + self.Year
+    if (self.Make != nil) and (self.Model != nil) and (self.Year != nil)
+      return  self.Make + ' ' + self.Model + ' ' + self.Year
+    else
+      return ' '
+    end
   end
 
 end
