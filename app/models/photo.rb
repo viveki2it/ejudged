@@ -9,6 +9,7 @@ class Photo < ActiveRecord::Base
                 :thumb=> "100x100#",
                 :small  => "400x400>"
             },
-            :defaul_url => ENV['OPENSHIFT_DATA_DIR']+"public/assets/user_photos/:id/:style/:id.:extension"
+            :url  => "/assets/user_photos/:id/:style/:id.:extension",
+            :path => ":rails_root/public/assets/user_photos/:id/:style/:id.:extension"
 
 end
