@@ -270,7 +270,7 @@ class EventsController < ApplicationController
   end
 
   def has_speciality
-    @sp = EventSpeciality.select("event_id")
+    @sp = EventSpeciality.select("event_id") 
     @result = Array.new
     @sp.each do |s| 
       @result.push(s.event_id)
