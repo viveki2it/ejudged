@@ -10,6 +10,13 @@ class Contest < ActiveRecord::Base
   validates :ContestName, :presence => true
   validates :judge_sheet_id, :event_id, :category_id, :presence => true
 
+  def as_json(options = {})
+    super(
+        :include => {
+          :event => {:only => [:EventName]}
+        })
+  end
+
   def full_name
   	fullName = self.ContestName
   	if self.event != nil

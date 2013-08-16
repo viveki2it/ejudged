@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
         redirect_to :controller => "login", :action => "login" 
       end
     rescue Exception => e
-      render :json => {error:"unauthorized token", err_description: e.message} , :status => :unauthorized 
+      render :json => {error:"This event has past.", err_description: e.message} , :status => :unauthorized 
     end
   end
  
@@ -38,10 +38,10 @@ class ApplicationController < ActionController::Base
             if is_admin(@userr)
               return true
               
-            elsif not @userr.events.select{ |ev| not ev.Completed and ev.EventDate + 2 >= Date.today}.empty?
+            elsif not @userr.events.select{ |ev| not ev.Completed and ev.EventDate.to_date + 2 >= Date.today}.empty?
               return true
             else
-              raise Exception, "Any event is available for this user"
+              raise Exception, "There are no events currently active for this user."
             end
           rescue Exception => e
               raise Exception, "can't find the user"

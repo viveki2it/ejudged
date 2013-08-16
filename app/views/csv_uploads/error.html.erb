@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+<h1>CSV ERROR PROCESSING FILE</h1>
+
+<p>
+	<h3><u>Posible Causes: </u></h3>
+	<ul>
+		<li>The csv file is incorrect.</li>
+		<li>The mapping cannot be proccessed with the selected association</li>
+	</ul>
+</p>
+<p>
+	<h3><u>Posible Solutions: </u></h3>
+	<ul>
+<% if @csv_upload.Type == "Customer" %>
+		<li>Check that the required fields FirstName LastName and CustomerID are beign mapped</li>
+<%else%>
+		<li>Check that the required fields Make Model Year and CustomerID are beign mapped</li>  
+<%end%>
+		
+		<li>Verify that each header has a correspondent value on each row of the file.</li>
+		<li>If characters like "  " and '  ' are being used, verify that enclose a whole word between the commas.</li>
+	<ul>
+</p>	

@@ -10,7 +10,8 @@
     <th>Score</th>
     <th>Club</th>
     <th>Customer</th>
-    <th>Contest</th>
+    <th>Contest</th>    
+    <th>Company</th>
     <th></th>
     <th></th>
     <th></th>
@@ -38,11 +39,19 @@
     <%else%>
         <td>Unassigned</td>
     <%end%>
+
     <%if not entry.contest.nil?%>
         <td><%= truncate(entry.contest.ContestName, :lenght => 15)%>
     <%else%>
         <td>Unassigned</td>
     <%end%>
+
+    <%if not entry.company.nil?%>
+        <td><%= truncate(entry.company.Name, :lenght => 15)%>
+    <%else%>
+        <td>Unassigned</td>
+    <%end%>
+
     <td><%= link_to 'Show', entry %></td>
     <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
     <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>

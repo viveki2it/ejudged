@@ -2,7 +2,6 @@
 
 <%= form_for(@entry, :html => { :multipart => true }) do |f| %>
 
-
   <div class="field">
     <%= f.label :RegistrationType %><br />
     <%= f.text_field :RegistrationType %>
@@ -87,3 +86,4 @@
 
 <%= link_to 'Show', @entry %> |
 <%= link_to 'Back', entries_path %>
+<br/>

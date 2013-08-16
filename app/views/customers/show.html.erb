@@ -17,6 +17,16 @@
 </p>
 <br/>
 
+<p>
+  <b>Company:</b>
+  <%if not @customer.company.nil?%>
+    <%= link_to @customer.company.Name, @customer.company %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+<br/>
+
 <h3>Entries:</h3>
 <table>
   <tr>

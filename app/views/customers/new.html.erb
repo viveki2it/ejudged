@@ -3,7 +3,7 @@
 
 	  <div class="field">
 	    <%= f.label :contact_info %>
-	    <%= collection_select :customer, :contact_info_id, ContactInfo.all, :id, :full_name %>
+	    <%= collection_select :customer, :contact_info_id, ContactInfo.order("LastName"), :id, :full_name %>
 	  </div>
 
 	    <div class="field">

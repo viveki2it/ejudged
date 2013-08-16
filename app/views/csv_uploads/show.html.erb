@@ -1,0 +1,104 @@
+<p id="notice"><%= notice %></p>
+<h1>CSV Upload resume</h1>
+<br/>
+<%if (flash[:csv_sucessfull] != nil) or (flash[:csv_errors] != nil) %>
+	<%if(@csv_upload.Type == "Customer")%>
+
+			<h3><font color="green">CSV Successfull information:</font></h3>
+			<table>
+			  <tr>
+			    <td><b>Customer First Name:</b></td>
+			    <td><b>Customer Last Name:</b></td>
+			  </tr>
+			<% flash[:csv_sucessfull].each do |e| %> 
+			  <tr>
+			    <td><%= e.FirstName %></td>
+			    <td><%= e.LastName %></td>
+			  </tr>
+			<% end %>		
+			</table>
+			<br/>
+			<h4><font color="green">Total customers added correctly: <%= flash[:csv_sucessfull].size %></font></h4>
+			<br/>
+	<hr/>
+			<h3><font color="red" >CSV Errors:</font></h3>
+			<table>
+			  <tr>
+			  	<td><b>File Row:</b></td>
+			    <td><b>Cause:</b></td>
+			  </tr>
+			<% flash[:csv_errors].each do |e| %> 
+			  <tr>
+			  	<td><%= e[0] %></td>
+			    <td><%= e[1] %></td>
+			<% end %>
+			</table>
+			<br/>
+			<h4><font color="red">Total customers with errors: <%= flash[:csv_errors].size %></font></h4>
+			<br/>
+
+	<%else%>
+			<h3><font color="green">CSV Successfull information:</font></h3>
+			<table>
+			  <tr>
+			    <td><b>Entry Year:</b></td>
+			    <td><b>Entry Make:</b></td>
+			    <td><b>Entry Model:</b></td>
+			  </tr>
+			<% flash[:csv_sucessfull].each do |e| %> 
+			  <tr>
+			  	<%if e != nil %>
+			    	<td><%= e.Year %></td>
+			    	<td><%= e.Make %></td>
+			    	<td><%= e.Model %></td>
+			    <%else%>
+			    	<td>Unknown</td>
+			    	<td>Unknown</td>
+			    	<td>Unknown</td>
+			    <%end%>
+			  </tr>
+			<% end %>
+			</table>
+			<br/>
+			<h4><font color="green">Total entries added correctly: <%= flash[:csv_sucessfull].size%></font></h4>
+			<br/>
+	<hr/>
+			<h3><font color="red">CSV Errors:</font></h3>
+			<table>
+			  <tr>
+			  	<td><b>File Row:</b></td>
+			    <td><b>Cause:</b></td>
+			  </tr>
+			<% flash[:csv_errors].each do |e| %> 
+			  <tr>
+			  	<td><%= e[0] %></td>
+			    <td><%= e[1] %></td>
+			  </tr>
+			<% end %>
+			</table>
+			<br/>
+			<h4><font color="red">Total entries with errors: <%= flash[:csv_errors].size%></font></h4>
+			<br/>
+		
+	<%end%>
+	<hr/>
+
+<%end%>
+
+
+<p>
+  <b>Type:</b>
+  <%= @csv_upload.Type %>
+</p>
+
+<p>
+  <b>Company:</b>
+  <%if @csv_upload.company != nil %>
+  	<%=link_to @csv_upload.company.Name, @csv_upload.company %>
+  <%else%>
+  	Unassigned
+  <%end%>
+</p>
+
+<%= link_to 'Back', csv_uploads_path %>
+<br/>

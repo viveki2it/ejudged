@@ -1,0 +1,35 @@
+<%= form_for(@csv_upload) do |f| %>
+  <% if @csv_upload.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@csv_upload.errors.count, "error") %> prohibited this csv_upload from being saved:</h2>
+
+      <ul>
+      <% @csv_upload.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <br/>
+
+  <div class="field">
+    <b><%= f.label "Choose the CSV type" %><b>
+    <%= select_tag(:Type, options_for_select([['Customer', 'Customer'],['Entry', 'Entry']]))%>
+  </div>
+
+  <div class="field">
+    <%= f.label "Company" %>
+    <%= collection_select :csv_upload, :company_id, Company.all, :id, :Name %>
+  </div>
+  <br/>
+
+  <div class="field">
+    <%= f.label "Choose the CSV file" %>
+    <%= f.file_field :csv_file %>
+  </div>
+  <br/>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

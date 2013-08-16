@@ -10,11 +10,25 @@ class EventsController < ApplicationController
       @user = session[:currentUser]
     end
 
-    if (params[:type].present? and params[:type] == "speciality") and params[:filter].present? and params[:serie_id].present? and params[:page].present?
+    if params[:Completed].present? and (params[:type].present? and params[:type] == "speciality") and params[:filter].present? and params[:serie_id].present? and params[:page].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and EventName LIKE ? and serie_id = ? and id IN(?)", params[:Completed], "%#{params[:filter]}%", params[:serie_id], has_speciality()).page(params[:page]).per(10)
+      else
+        @events = Event.where("Completed = ? and EventName LIKE ? and serie_id = ? and id IN(?) and id IN(?)", params[:Completed], "%#{params[:filter]}%", params[:serie_id], get_user_events(@user), has_speciality()).page(params[:page]).per(10)
+      end
+
+    elsif (params[:type].present? and params[:type] == "speciality") and params[:filter].present? and params[:serie_id].present? and params[:page].present?
       if is_admin_or_event_manager(@user)
         @events = Event.where("EventName LIKE ? and serie_id = ? and id IN(?)", "%#{params[:filter]}%", params[:serie_id], has_speciality()).page(params[:page]).per(10)
       else
         @events = Event.where("EventName LIKE ? and serie_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", params[:serie_id], get_user_events(@user), has_speciality()).page(params[:page]).per(10)
+      end
+
+    elsif params[:Completed].present? and params[:filter].present? and params[:serie_id].present? and params[:page].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and EventName LIKE ? and serie_id = ?",params[:Completed], "%#{params[:filter]}%", params[:serie_id]).page(params[:page]).per(10)
+      else
+        @events = Event.where("Completed = ? and EventName LIKE ? and serie_id = ? and id IN(?)", params[:Completed], "%#{params[:filter]}%", params[:serie_id], get_user_events(@user)).page(params[:page]).per(10)
       end
 
     elsif params[:filter].present? and params[:serie_id].present? and params[:page].present?
@@ -24,11 +38,25 @@ class EventsController < ApplicationController
         @events = Event.where("EventName LIKE ? and serie_id = ? and id IN(?)", "%#{params[:filter]}%", params[:serie_id], get_user_events(@user)).page(params[:page]).per(10)
       end
 
+    elsif params[:Completed].present? and (params[:type].present? and params[:type] == "speciality") and params[:serie_id].present? and params[:page].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and serie_id = ? and id IN(?)", params[:Completed], params[:serie_id], has_speciality()).page(params[:page]).per(10)
+      else
+        @events = Event.where("Completed = ? and serie_id = ? and id IN(?) and id IN(?)", params[:Completed], params[:serie_id], get_user_events(@user), has_speciality()).page(params[:page]).per(10)
+      end
+
     elsif (params[:type].present? and params[:type] == "speciality") and params[:serie_id].present? and params[:page].present?
       if is_admin_or_event_manager(@user)
         @events = Event.where("serie_id = ? and id IN(?)", params[:serie_id], has_speciality()).page(params[:page]).per(10)
       else
         @events = Event.where("serie_id = ? and id IN(?) and id IN(?)", params[:serie_id], get_user_events(@user), has_speciality()).page(params[:page]).per(10)
+      end
+
+    elsif params[:Completed].present? and (params[:type].present? and params[:type] == "speciality") and params[:filter].present? and params[:serie_id].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and EventName LIKE ? and serie_id = ? and id IN(?)", params[:Completed], "%#{params[:filter]}%", params[:serie_id], has_speciality())
+      else
+        @events = Event.where("Completed = ? and EventName LIKE ? and serie_id = ? and id IN(?) and id IN(?)", params[:Completed], "%#{params[:filter]}%", params[:serie_id], get_user_events(@user), has_speciality())
       end
 
     elsif (params[:type].present? and params[:type] == "speciality") and params[:filter].present? and params[:serie_id].present?
@@ -38,11 +66,25 @@ class EventsController < ApplicationController
         @events = Event.where("EventName LIKE ? and serie_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", params[:serie_id], get_user_events(@user), has_speciality())
       end
 
+    elsif params[:Completed].present? and (params[:type].present? and params[:type] == "speciality") and params[:filter].present? and params[:page].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and EventName LIKE ? and id IN(?)", params[:Completed], "%#{params[:filter]}%").page(params[:page], has_speciality()).per(10)
+      else
+        @events = Event.where("Completed = ? and EventName LIKE ? and id IN(?) and id IN(?)", params[:Completed], "%#{params[:filter]}%", get_user_events(@user), has_speciality()).page(params[:page]).per(10)
+      end
+
     elsif (params[:type].present? and params[:type] == "speciality") and params[:filter].present? and params[:page].present?
       if is_admin_or_event_manager(@user)
         @events = Event.where("EventName LIKE ? and id IN(?)", "%#{params[:filter]}%").page(params[:page], has_speciality()).per(10)
       else
         @events = Event.where("EventName LIKE ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", get_user_events(@user), has_speciality()).page(params[:page]).per(10)
+      end
+
+    elsif params[:Completed].present? and (params[:type].present? and params[:type] == "speciality") and params[:serie_id].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and serie_id = ? and id IN(?)", params[:Completed], params[:serie_id], has_speciality())
+      else
+        @events = Event.where("Completed = ? and serie_id = ? and id IN(?) and id IN(?)", params[:Completed], params[:serie_id], get_user_events(@user), has_speciality())
       end
 
     elsif (params[:type].present? and params[:type] == "speciality") and params[:serie_id].present?
@@ -52,11 +94,25 @@ class EventsController < ApplicationController
         @events = Event.where("serie_id = ? and id IN(?) and id IN(?)", params[:serie_id], get_user_events(@user), has_speciality())
       end
 
+    elsif params[:Completed].present? and (params[:type].present? and params[:type] == "speciality") and params[:page].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and id IN(?)", params[:Completed], has_speciality()).page(params[:page]).per(10)
+      else
+        @events = Event.where("Completed = ? and id IN(?) and id IN(?)", params[:Completed], get_user_events(@user), has_speciality()).page(params[:page]).per(10)
+      end
+
     elsif (params[:type].present? and params[:type] == "speciality") and params[:page].present?
       if is_admin_or_event_manager(@user)
         @events = Event.where("id IN(?)", has_speciality()).page(params[:page]).per(10)
       else
         @events = Event.where("id IN(?) and id IN(?)", get_user_events(@user), has_speciality()).page(params[:page]).per(10)
+      end
+
+    elsif params[:Completed].present? and (params[:type].present? and params[:type] == "speciality") and params[:filter].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and EventName LIKE ? and id IN(?)", params[:Completed], "%#{params[:filter]}%", has_speciality())
+      else
+        @events = Event.where("Completed = ? and EventName LIKE ? and id IN(?) and id IN(?)", params[:Completed], "%#{params[:filter]}%", get_user_events(@user), has_speciality())
       end
 
     elsif (params[:type].present? and params[:type] == "speciality") and params[:filter].present?
@@ -66,11 +122,25 @@ class EventsController < ApplicationController
         @events = Event.where("EventName LIKE ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", get_user_events(@user), has_speciality())
       end
 
+    elsif params[:Completed].present? and params[:serie_id].present? and params[:page].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and serie_id = ?", params[:Completed], params[:serie_id]).page(params[:page]).per(10)
+      else
+        @events = Event.where("Completed = ? and serie_id = ? and id IN(?)", params[:Completed], params[:serie_id], get_user_events(@user)).page(params[:page]).per(10)
+      end
+
     elsif params[:serie_id].present? and params[:page].present?
       if is_admin_or_event_manager(@user)
         @events = Event.where("serie_id = ?", params[:serie_id]).page(params[:page]).per(10)
       else
         @events = Event.where("serie_id = ? and id IN(?)", params[:serie_id], get_user_events(@user)).page(params[:page]).per(10)
+      end
+
+    elsif params[:Completed].present? and params[:filter].present? and params[:serie_id].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and EventName LIKE ? and serie_id = ?", params[:Completed], "%#{params[:filter]}%", params[:serie_id])
+      else
+        @events = Event.where("Completed = ? and EventName LIKE ? and serie_id = ? and id IN(?)", params[:Completed], "%#{params[:filter]}%", params[:serie_id], get_user_events(@user))
       end
 
     elsif params[:filter].present? and params[:serie_id].present?
@@ -80,11 +150,25 @@ class EventsController < ApplicationController
         @events = Event.where("EventName LIKE ? and serie_id = ? and id IN(?)", "%#{params[:filter]}%", params[:serie_id], get_user_events(@user))
       end
 
+    elsif params[:Completed].present? and params[:filter].present? and params[:page].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and EventName LIKE ?", params[:Completed], "%#{params[:filter]}%").page(params[:page]).per(10)
+      else
+        @events = Event.where("Completed = ? and EventName LIKE ? and id IN(?)", params[:Completed], "%#{params[:filter]}%", get_user_events(@user)).page(params[:page]).per(10)
+      end
+
     elsif params[:filter].present? and params[:page].present?
       if is_admin_or_event_manager(@user)
         @events = Event.where("EventName LIKE ?", "%#{params[:filter]}%").page(params[:page]).per(10)
       else
         @events = Event.where("EventName LIKE ? and id IN(?)", "%#{params[:filter]}%", get_user_events(@user)).page(params[:page]).per(10)
+      end
+
+    elsif params[:Completed].present? and params[:serie_id].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and serie_id = ?",params[:Completed], params[:serie_id])
+      else
+        @events = Event.where("Completed = ? and serie_id = ? and id IN(?)", params[:Completed], params[:serie_id], get_user_events(@user))
       end
 
     elsif params[:serie_id].present?
@@ -93,12 +177,26 @@ class EventsController < ApplicationController
       else
         @events = Event.where("serie_id = ? and id IN(?)", params[:serie_id], get_user_events(@user))
       end
-      
+    
+    elsif params[:Completed].present? and params[:page].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ?", params[:Completed]).page(params[:page]).per(10)
+      else
+        @events = Event.where("Completed = ? and id IN(?)", params[:Completed], get_user_events(@user)).page(params[:page]).per(10)
+      end
+
     elsif params[:page].present?
       if is_admin_or_event_manager(@user)
         @events = Event.page(params[:page]).per(10)
       else
         @events = Event.where("id IN(?)", get_user_events(@user)).page(params[:page]).per(10)
+      end
+
+    elsif params[:Completed].present? and params[:filter].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and EventName LIKE ?", params[:Completed], "%#{params[:filter]}%")
+      else
+        @events = Event.where("Completed = ? and EventName LIKE ? and id IN(?)", params[:Completed], "%#{params[:filter]}%", get_user_events(@user))
       end
 
     elsif params[:filter].present?
@@ -108,11 +206,25 @@ class EventsController < ApplicationController
         @events = Event.where("EventName LIKE ? and id IN(?)", "%#{params[:filter]}%", get_user_events(@user))
       end
 
+    elsif params[:Completed].present? and params[:type].present? and params[:type] == "speciality"
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ? and id IN(?)", params[:Completed], has_speciality())
+      else
+        @events = Event.where("Completed = ? and id IN(?) and id IN(?)", params[:Completed], get_user_events(@user), has_speciality())
+      end
+
     elsif params[:type].present? and params[:type] == "speciality"
       if is_admin_or_event_manager(@user)
-        @events = Event.where("EventName LIKE ? and id IN(?)", "%#{params[:filter]}%", has_speciality())
+        @events = Event.where("id IN(?)", has_speciality())
       else
-        @events = Event.where("EventName LIKE ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", get_user_events(@user), has_speciality())
+        @events = Event.where("id IN(?) and id IN(?)", get_user_events(@user), has_speciality())
+      end
+
+    elsif params[:Completed].present?
+      if is_admin_or_event_manager(@user)
+        @events = Event.where("Completed = ?", params[:Completed])
+      else
+        @events = Event.where("Completed = ? and id IN(?)", params[:Completed], get_user_events(@user))
       end
 
     else
@@ -269,8 +381,8 @@ class EventsController < ApplicationController
     return @events
   end
 
-  def has_speciality
-    @sp = EventSpeciality.select("event_id") 
+  def has_speciality()
+    @sp = EventSpeciality.select("event_id")
     @result = Array.new
     @sp.each do |s| 
       @result.push(s.event_id)

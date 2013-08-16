@@ -49,6 +49,15 @@
 </p>
 
 <p>
+  <b>Company:</b>
+  <%if not @entry.company.nil?%>
+    <%= link_to @entry.company.Name, @entry.company %>
+  <%else%>
+    Unassigned
+  <%end%>
+</p>
+
+<p>
   <b>RegistrationType:</b>
   <%= @entry.RegistrationType %>
 </p>

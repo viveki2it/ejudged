@@ -22,18 +22,18 @@ skip_before_filter :require_login, :only => [:new, :create,:login,:authenticate,
 	  			@result = [@userr, @token]
 	  			render :json => @result
 	  			
-	  		elsif not @userr.events.select{ |ev| not ev.Completed and ev.EventDate + 2 >= Date.today}.empty?
+	  		elsif not @userr.events.select{ |ev| not ev.Completed and ev.EventDate.to_date + 2 >= Date.today}.empty?
 	  			@token = @userr.tokens.last
 	  			@result = [@userr, @token]
 	  			render :json => @result
 	  		else
-	  			render :json => {error:"Any event is available."}, :status => :unauthorized
+	  			render :json => {error:"There are no events currently active for this user."}, :status => :unauthorized
 	  		end
   		else
 
   			respond_to do |format|
       			format.html { redirect_to '/login/index' }
-      			format.json { render :json => {error:"couldn't find the user"}, :status => :unprocessable_entity  }
+      			format.json { render :json => {error:"Invalid username or password please try again."}, :status => :unprocessable_entity  }
     		end
 		end
 	end

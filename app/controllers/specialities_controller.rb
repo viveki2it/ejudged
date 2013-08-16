@@ -123,6 +123,13 @@ class SpecialitiesController < ApplicationController
     @token = Token.where(:Value => @theparameters.fetch("token")).first
     @result = Hash.new
     if is_admin(@token.user)
+
+      @freezedES = EventSpeciality.all      
+      @freezedES.each do |f|
+          f.FreezedEntry = nil
+          f.save
+      end
+
       if @theparameters.keys.include?("map")
         @map = @theparameters.fetch("map")
         @map.each do |pair|
@@ -137,35 +144,65 @@ class SpecialitiesController < ApplicationController
           @event_speciality.FreezedEntry = @entry_id
           @event_speciality.save
 
-          @eventContests = @eventEntry.contests
-          @eventEntries = Array.new
-          @eventContests.each do |eventContest|
-            @contestEntries = eventContest.entries
-            @contestEntries.each do |contestEntry|
-              @eventEntries.push(contestEntry.id)
-            end
-          end
+        #   @eventContests = @eventEntry.contests
+        #   @eventEntries = Array.new
+        #   @eventContests.each do |eventContest|
+        #     @contestEntries = eventContest.entries
+        #     @contestEntries.each do |contestEntry|
+        #       @eventEntries.push(contestEntry.id)
+        #     end
+        #   end
 
-          @nominated_entries = []
-          @speciality.entries.each do |ne|
-            if @eventEntries.include?(ne.id)
-              if ne.id == @entry_id
-                @nominatedcar = Hash.new
-                @nominatedcar["entry"] = ne
-                @nominatedcar["freezed"] = true
-                @nominated_entries.push @nominatedcar
-              else
-                @nominatedcar = Hash.new
-                @nominatedcar["entry"] = ne
-                @nominatedcar["freezed"] = false
-                @nominated_entries.push @nominatedcar
-              end
-            end
-          end
-          @result[@speciality.Type] = @nominated_entries
+        #   @nominated_entries = []
+        #   @speciality.entries.each do |ne|
+        #     if @eventEntries.include?(ne.id)
+        #       if ne.id == @entry_id
+        #         @nominatedcar = Hash.new
+        #         @nominatedcar["entry"] = ne
+        #         @nominatedcar["freezed"] = true
+        #         @nominated_entries.push @nominatedcar
+        #       else
+        #         @nominatedcar = Hash.new
+        #         @nominatedcar["entry"] = ne
+        #         @nominatedcar["freezed"] = false
+        #         @nominated_entries.push @nominatedcar
+        #       end
+        #     end
+        #   end
+        #   @result[@speciality.Type] = @nominated_entries
+        # end
+      end        
+        Speciality.all.each do |sp|
+            @nominated_entries = []
+            sp.entries.each do |ne|
+                e_contest = ne.contest
+                e_event = e_contest.event
+                e_contests = e_event.contests
+                event_entries = Array.new
 
+                e_contests.each do |eventContest|
+                    contestEntries = eventContest.entries
+                    contestEntries.each do |contestEntry|
+                        event_entries.push(contestEntry.id)
+                    end
+                end
+
+                if event_entries.include?(ne.id)
+                  if ne.id == @entry_id
+                    @nominatedcar = Hash.new
+                    @nominatedcar["entry"] = ne
+                    @nominatedcar["freezed"] = true
+                    @nominated_entries.push @nominatedcar
+                  else
+                    @nominatedcar = Hash.new
+                    @nominatedcar["entry"] = ne
+                    @nominatedcar["freezed"] = false
+                    @nominated_entries.push @nominatedcar
+                  end
+                end
+            end
+            @result[sp.Type] = @nominated_entries
         end
-
 
         render :json => @result
 

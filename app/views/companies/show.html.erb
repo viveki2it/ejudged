@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @company.Name %>
+</p>
+
+<%
+	customers = Customer.where("company_id = ?", @company.id)
+	entries = Entry.where("company_id = ?", @company.id)
+%>
+
+<h3>Company Entries:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>Year:</b></td>
+    <td><b>Make:</b></td>
+    <td><b>Model:</b></td>
+    <td><b>Entry Link:</b></td>
+  </tr>
+<% entries.each do |e| %>
+  <tr>
+    <td><%=e.Year%></td>
+    <td><%=e.Make%></td>
+    <td><%=e.Model%></td>
+    <td><%= link_to "Entry Details",e%></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<h3>Company Customers:</h3>
+<table style="border-bottom-style: solid;border-top-style: solid;">
+  <tr>
+    <td><b>First Name:</b></td>
+    <td><b>Last Name:</b></td>
+    <td><b>Customer Link:</b></td>
+  </tr>
+<% customers.each do |c| %>
+  <tr>
+    <%if c.contact_info != nil%>
+      <td><%= c.contact_info.FirstName%></td>
+      <td><%= c.contact_info.LastName%></td>
+    <%else%>
+      <td>Unassigned</td>
+      <td>Unassigned</td>
+    <%end%>
+    <td><%= link_to "Customer Details",c%></td>
+  </tr>
+<% end %>
+</table>
+<br/>
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>

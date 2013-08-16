@@ -1,5 +1,11 @@
 EJudged::Application.routes.draw do
 
+  resources :csv_uploads
+
+
+  resources :companies
+
+
   resources :event_specialities
   
   resources :results

@@ -2,8 +2,17 @@ class CustomersController < ApplicationController
   # GET /customers
   # GET /customers.json
   def index
-
-    @customers = Customer.all
+   
+   if request.format == "json"
+      contact_infos = ContactInfo.order("LastName")
+      @customers = Array.new
+      contact_infos.each do |ci|
+        cust_aux = Customer.where("contact_info_id = ?", ci.id).first
+        @customers.push(cust_aux)
+      end
+   else
+      @customers = Customer.all
+   end
 
     if not ((request.format == "json") and (not params[:page].present?))
       @customers = Kaminari.paginate_array(@customers).page(params[:page]).per(10)

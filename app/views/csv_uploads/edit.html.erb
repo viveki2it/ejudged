@@ -1,0 +1,76 @@
+<h1>Mapping CSV upload</h1>
+<%begin%>
+<br>
+
+<%= form_for(@csv_upload) do |f| %>
+<h3><font color='green'>Please match the fields to finish Csv upload</font></h3>
+
+<%if @csv_upload.Type == "Customer"%>
+	<table>
+	<th><h3>CSV Headers</h3></th>
+	<th><h3>Contact Info fields</h3></th>
+	<%
+		@index = 0
+	 	@headers = @csv_upload.listHeaders 
+	 	@headers.each do |h|
+	 %>
+	<tr>
+	    <div class="field">
+	    	<td>
+	    		<%= h %>
+	    	</td>
+		    <td>
+		    	<select class="select_field" onfocus="this.oldvalue = this.value;" name="contact_info_field_<%=@index%>" onChange="javascript:optionsChange(this);this.oldvalue = this.value;">
+		    		<%= options_for_select(@csv_upload.getContactInfoFields) %>
+				</select>
+			</td>
+		</div>
+		<% @index = @index + 1%>
+
+	</tr>
+
+	<% end %>
+	</table>
+	<br/>
+<%elsif @csv_upload.Type == "Entry"%>
+	<table>
+	<th><h3>CSV Headers</h3></th>
+	<th><h3>Entry fields</h3></th>
+	<%
+		@index = 0
+	 	@headers = @csv_upload.listHeaders 
+	 	@headers.each do |h|
+	 %>
+	<tr>
+	    <div class="field">
+	    	<td>
+	    		<%= h %>
+	    	</td>
+		    <td>
+		    	<select class="select_field" onfocus="this.oldvalue = this.value;" name="entry_field_<%=@index%>" onChange="javascript:optionsChange(this);this.oldvalue = this.value;">
+		    		<%= options_for_select(@csv_upload.getEntryFields) %>
+				</select>
+			</td>
+		</div>
+		<%@index = @index + 1%>
+
+	</tr>
+
+	<% end %>
+	</table>
+	<br/>
+<%end%>
+
+<div class="actions">
+    <%= f.submit "Finish CSV Upload"%>
+</div>
+
+<% end %>
+
+<%= javascript_include_tag "application" %>
+
+<br/>
+<br/>
+<%rescue Exception => e%>
+<%= render :template => "csv_uploads/error.html.erb"  %>
+<%end%>

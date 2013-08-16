@@ -11,5 +11,4 @@ class Photo < ActiveRecord::Base
             },
             :url  => "/assets/user_photos/:id/:style/:id.:extension",
             :path => ":rails_root/public/assets/user_photos/:id/:style/:id.:extension"
-
 end

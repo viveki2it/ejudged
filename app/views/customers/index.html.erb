@@ -4,6 +4,7 @@
   <tr>
     <th>Name</th>
     <th>Club</th>
+    <th>Company</th>
     <th></th>
     <th></th>
     <th></th>
@@ -19,6 +20,12 @@
 
     <%if not customer.club.nil?%>
       <td><%= truncate(customer.club.ClubName, :lenght => 15)%></td>
+    <%else%>
+      <td>Unassigned</td>
+    <%end%>
+
+    <%if not customer.company.nil?%>
+      <td><%= truncate(customer.company.Name, :lenght => 15)%></td>
     <%else%>
       <td>Unassigned</td>
     <%end%>

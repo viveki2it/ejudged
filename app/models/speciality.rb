@@ -27,29 +27,30 @@ def as_json(options = {})
           @event_entries.push(contest_entry.id)
         end
       end
-    end
+    
 
-    self.entries.each do |e|
-      if @check_event
-        if @event_entries.include?(e.id) 
-          e[:freezed] = false
-          if (e.id == @event_speciality.FreezedEntry)
-              e[:freezed] = true
+      self.entries.each do |e|
+        if @check_event
+          if @event_entries.include?(e.id) 
+            e[:freezed] = false
+            if (e.id == @event_speciality.FreezedEntry)
+                e[:freezed] = true
+            end
+            if not @jsonarrayids.include?(e.id)
+              @jsonarray.push ( e )
+              @jsonarrayids.push (e.id)
+            end
           end
-          if not @jsonarrayids.include?(e.id)
-            @jsonarray.push ( e )
-            @jsonarrayids.push (e.id)
-          end
+        else
+            e[:freezed] = false
+            if (e.id == @event_speciality.FreezedEntry)
+                e[:freezed] = true
+            end
+            if not @jsonarrayids.include?(e.id)
+              @jsonarray.push ( e )
+              @jsonarrayids.push (e.id)
+            end
         end
-      else
-          e[:freezed] = false
-          if (e.id == @event_speciality.FreezedEntry)
-              e[:freezed] = true
-          end
-          if not @jsonarrayids.include?(e.id)
-            @jsonarray.push ( e )
-            @jsonarrayids.push (e.id)
-          end
       end
     end
 

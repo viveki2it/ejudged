@@ -17,9 +17,9 @@ class EntriesController < ApplicationController
           @entry_results.push(ur.entry_id)
         end
         if is_admin(@user)
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
         else
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_user_entries(@user), get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_user_entries(@user), get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
         end
       else
           @entries = []
@@ -33,9 +33,9 @@ class EntriesController < ApplicationController
           @entry_results.push(ur.entry_id)
         end
         if is_admin(@user)
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results).page(params[:page]).per(8).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results).page(params[:page]).per(8).order("Score DESC")
         else
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_user_entries(@user)).page(params[:page]).per(8).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_user_entries(@user)).page(params[:page]).per(8).order("Score DESC")
         end
 
       else
@@ -44,58 +44,58 @@ class EntriesController < ApplicationController
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "score") and params[:filter].present? and params[:contest_id].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("Score DESC").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("Score DESC").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC").page(params[:page]).per(8)
       end
 
     elsif (params[:order].present? and params[:order] == "score") and params[:filter].present? and params[:contest_id].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("Score DESC").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("Score DESC").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("Score DESC").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("Score DESC").page(params[:page]).per(8)
       end
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "owner") and params[:filter].present? and params[:contest_id].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("customer_id").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("customer_id").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("customer_id").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("customer_id").page(params[:page]).per(8)
       end
 
     elsif (params[:order].present? and params[:order] == "owner") and params[:filter].present? and params[:contest_id].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("customer_id").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("customer_id").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("customer_id").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", getCustomersIdByName(params[:filter]), "%#{params[:filter]}%","%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("customer_id").page(params[:page]).per(8)
       end
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "reg") and params[:filter].present? and params[:contest_id].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("RegistrationNumber").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("RegistrationNumber").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("RegistrationNumber").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("RegistrationNumber").page(params[:page]).per(8)
       end
 
     elsif (params[:order].present? and params[:order] == "reg") and params[:filter].present? and params[:contest_id].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("RegistrationNumber").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("RegistrationNumber").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("RegistrationNumber").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("RegistrationNumber").page(params[:page]).per(8)
       end
 
     elsif params[:speciality_id].present? and params[:filter].present? and params[:contest_id].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
       end
 
     elsif params[:filter].present? and params[:contest_id].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).page(params[:page]).per(8).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).page(params[:page]).per(8).order("Score DESC")
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).page(params[:page]).per(8).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).page(params[:page]).per(8).order("Score DESC")
       end
 
     elsif params[:speciality_id].present? and (params[:type].present? and params[:type] == "mine") and params[:filter].present? and params[:contest_id].present?
@@ -106,9 +106,9 @@ class EntriesController < ApplicationController
           @entry_results.push(ur.entry_id)
         end
         if is_admin(@user)
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_entry_specialities(params[:speciality_id])).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_entry_specialities(params[:speciality_id])).order("Score DESC")
         else
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
         end
       else
           @entries = []
@@ -122,9 +122,9 @@ class EntriesController < ApplicationController
           @entry_results.push(ur.entry_id)
         end
         if is_admin(@user)
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results).order("Score DESC")
         else
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_user_entries(@user)).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], @entry_results, get_user_entries(@user)).order("Score DESC")
         end
 
       else
@@ -133,51 +133,51 @@ class EntriesController < ApplicationController
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "score") and params[:filter].present? and params[:contest_id].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("Score DESC")
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
       end
 
     elsif (params[:order].present? and params[:order] == "score") and params[:filter].present? and params[:contest_id].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("Score DESC")
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("Score DESC")
       end
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "owner") and params[:filter].present? and params[:contest_id].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("customer_id")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("customer_id")
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("customer_id")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("customer_id")
       end
 
     elsif (params[:order].present? and params[:order] == "owner") and params[:filter].present? and params[:contest_id].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("customer_id")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("customer_id")
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("customer_id")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("customer_id")
       end
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "reg") and params[:filter].present? and params[:contest_id].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("RegistrationNumber")     
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("RegistrationNumber")     
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("RegistrationNumber")     
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("RegistrationNumber")     
       end
 
     elsif (params[:order].present? and params[:order] == "reg") and params[:filter].present? and params[:contest_id].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("RegistrationNumber")     
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("RegistrationNumber")     
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("RegistrationNumber")     
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("RegistrationNumber")     
       end
 
     elsif params[:speciality_id].present? and params[:filter].present? and params[:contest_id].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("Score DESC")      
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_entry_specialities(params[:speciality_id])).order("Score DESC")      
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")      
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")      
       end
 
 
@@ -189,9 +189,9 @@ class EntriesController < ApplicationController
           @entry_results.push(ur.entry_id)
         end
         if is_admin(@user)
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
         else
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_user_entries(@user), get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_user_entries(@user), get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
         end
       else
           @entries = []
@@ -205,9 +205,9 @@ class EntriesController < ApplicationController
           @entry_results.push(ur.entry_id)
         end
         if is_admin(@user)
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results).page(params[:page]).per(8).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results).page(params[:page]).per(8).order("Score DESC")
         else
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_user_entries(@user)).page(params[:page]).per(8).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_user_entries(@user)).page(params[:page]).per(8).order("Score DESC")
         end
       else
           @entries = []
@@ -215,51 +215,51 @@ class EntriesController < ApplicationController
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "score") and params[:filter].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("Score DESC").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("Score DESC").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC").page(params[:page]).per(8)
       end
 
     elsif (params[:order].present? and params[:order] == "score") and params[:filter].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("Score DESC").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("Score DESC").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("Score DESC").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("Score DESC").page(params[:page]).per(8)
       end
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "owner") and params[:filter].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("customer_id").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("customer_id").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("customer_id").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("customer_id").page(params[:page]).per(8)
       end
 
     elsif (params[:order].present? and params[:order] == "owner") and params[:filter].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("customer_id").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("customer_id").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("customer_id").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("customer_id").page(params[:page]).per(8)
       end
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "reg") and params[:filter].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("RegistrationNumber").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("RegistrationNumber").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("RegistrationNumber").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("RegistrationNumber").page(params[:page]).per(8)
       end
 
     elsif (params[:order].present? and params[:order] == "reg") and params[:filter].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("RegistrationNumber").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("RegistrationNumber").page(params[:page]).per(8)
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("RegistrationNumber").page(params[:page]).per(8)
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("RegistrationNumber").page(params[:page]).per(8)
       end
 
     elsif params[:speciality_id].present? and params[:filter].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).page(params[:page]).per(8).order("Score DESC")
       end
 
     elsif params[:speciality_id].present? and (params[:type].present? and params[:type] == "mine") and params[:contest_id].present? and params[:page].present?
@@ -425,9 +425,9 @@ class EntriesController < ApplicationController
           @entry_results.push(ur.entry_id)
         end
         if is_admin(@user)
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_entry_specialities(params[:speciality_id])).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_entry_specialities(params[:speciality_id])).order("Score DESC")
         else
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
         end
       else
           @entries = []
@@ -441,9 +441,9 @@ class EntriesController < ApplicationController
           @entry_results.push(ur.entry_id)
         end
         if is_admin(@user)
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results).order("Score DESC")
         else
-          @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?))", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_user_entries(@user)).order("Score DESC")
+          @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and (id IN(?)) and (id IN(?))",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", @entry_results, get_user_entries(@user)).order("Score DESC")
         end
       else
           @entries = []
@@ -451,37 +451,37 @@ class EntriesController < ApplicationController
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "score") and params[:filter].present?
       if is_admin(@user)
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("Score DESC")
       else
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
       end
 
     elsif (params[:order].present? and params[:order] == "score") and params[:filter].present?
       if is_admin(@user)
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("Score DESC")
+        @entries = Entry.where("id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("Score DESC")
       else
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("Score DESC")
       end
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "owner") and params[:filter].present?
       if is_admin(@user)
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("customer_id")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("customer_id")
       else
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("customer_id")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("customer_id")
       end
 
     elsif (params[:order].present? and params[:order] == "owner") and params[:filter].present?
       if is_admin(@user)
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("customer_id")
+        @entries = Entry.where("id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("customer_id")
       else
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("customer_id")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("customer_id")
       end
 
     elsif params[:speciality_id].present? and (params[:order].present? and params[:order] == "reg") and params[:filter].present?
       if is_admin(@user)
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("RegistrationNumber")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("RegistrationNumber")
       else
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("RegistrationNumber")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("RegistrationNumber")
       end
 
     elsif params[:speciality_id].present? and (params[:type].present? and params[:type] == "mine") and params[:page].present?
@@ -502,31 +502,31 @@ class EntriesController < ApplicationController
 
      elsif (params[:order].present? and params[:order] == "reg") and params[:filter].present?
       if is_admin(@user)
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("RegistrationNumber")
+        @entries = Entry.where("id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("RegistrationNumber")
       else
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("RegistrationNumber")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("RegistrationNumber")
       end
 
      elsif params[:filter].present? and params[:page].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").page(params[:page]).per(8).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").page(params[:page]).per(8).order("Score DESC")
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).page(params[:page]).per(8).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).page(params[:page]).per(8).order("Score DESC")
       end
 
     elsif params[:speciality_id].present? and params[:filter].present?
       if is_admin(@user)
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%",  "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_entry_specialities(params[:speciality_id])).order("Score DESC")
       else
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?) and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?) and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%",  "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user), get_entry_specialities(params[:speciality_id])).order("Score DESC")
       end
 
 
     elsif params[:filter].present? and params[:contest_id].present?
       if is_admin(@user)
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("Score DESC")      
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ?",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id]).order("Score DESC")      
       else
-        @entries = Entry.where("(Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and contest_id = ? and id IN(?)",getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", params[:contest_id], get_user_entries(@user)).order("Score DESC")
       end
 
     elsif params[:speciality_id].present? and params[:contest_id].present?
@@ -699,9 +699,9 @@ class EntriesController < ApplicationController
 
     elsif params[:filter].present?
       if is_admin(@user)
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ?", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("Score DESC")
+        @entries = Entry.where("id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?", getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%").order("Score DESC")
       else
-        @entries = Entry.where("Model LIKE ? or Make LIKE ? or Year LIKE ? and id IN(?)", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("Score DESC")
+        @entries = Entry.where("(id IN(?) or RegistrationNumber LIKE ? or Model LIKE ? or Make LIKE ? or Year LIKE ?) and id IN(?)", getCustomersIdByName(params[:filter]), "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", "%#{params[:filter]}%", get_user_entries(@user)).order("Score DESC")
       end
 
     elsif params[:speciality_id].present?
@@ -1132,7 +1132,7 @@ class EntriesController < ApplicationController
         end
       else
         format.html { render :action => "edit" }
-        format.json { render :json => @entry.errors, :status => :unprocessable_entity }
+        format.json { render :json => {:error => "This event has past.", :status => :unprocessable_entity }}        
       end
     end
   end
@@ -1208,5 +1208,23 @@ class EntriesController < ApplicationController
     end
     return @entry_sp
   end
+
+  def getCustomersIdByName(filter)
+    entries_ids = Array.new
+    contacts_ids = Array.new
+    contacts_match = ContactInfo.where("FirstName LIKE ? or LastName LIKE ?", "%#{filter}%", "%#{filter}%")
+    contacts_match.each do |ci|
+      contacts_ids.push(ci.id)
+    end
+    customers = Customer.where("contact_info_id IN(?)", contacts_ids)
+    customers.each do |c|
+      entries = Array.new
+      entries = c.entries
+      entries.each do |e|
+        entries_ids.push(e.id)
+      end
+    end
+    return entries_ids
+  end  
 
 end

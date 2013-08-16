@@ -3,6 +3,7 @@ class Entry < ActiveRecord::Base
   belongs_to :club
   belongs_to :customer
   belongs_to :user
+  belongs_to :company
   
   has_many :results, :dependent => :destroy
   has_many :entry_specialities
@@ -11,7 +12,7 @@ class Entry < ActiveRecord::Base
 
   attr_accessible :RegistrationType,:Freezed, :Make, :Model, :Notes, :RegistrationNumber, :Score, :Year, :photos_attributes
   
-  validates :contest_id, :Make, :Model, :Year,:RegistrationNumber, :presence => true
+  validates :Make, :Model, :Year,:RegistrationNumber, :presence => true
   validates :RegistrationNumber, :numericality => true
 
   def serializable_hash(options = {})

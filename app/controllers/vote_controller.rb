@@ -50,7 +50,7 @@ class VoteController < ApplicationController
 						 				@modified = true
 						 				@col_answer.push(@answer)
 						 			else
-						 				render :json => {error:"You can't rate for this new entry because you are an admin"}, :status => :unprocessable_entity
+						 				render :json => {error:"You can't rate for this new entry because you are an admin", :entry => @entry }, :status => :unprocessable_entity
 					 					return 
 						 			end					 				
 					 			else
@@ -71,7 +71,7 @@ class VoteController < ApplicationController
 					 					@modified = true
 					 					@col_answer.push(@answer)
 					 				else
-					 					render :json => {error:"This entry has already been judged."}, :status => :unprocessable_entity
+					 					render :json => {error:"This entry has already been judged.", :entry => @entry } ,:status => :unprocessable_entity
 					 					return 
 					 				end
 					 			end
@@ -100,7 +100,6 @@ class VoteController < ApplicationController
 							   @modified = true
 							end
 							@speciality.save
-
 						end
 					else
 						@event = @contest.event
@@ -129,25 +128,41 @@ class VoteController < ApplicationController
 				@entry.save
 
 	  			@return = Array.new
-
 	  			@return.push(@col_answer,@specialities_record, @entry)
+
+	  			#return statement
 	  			render :json => @return
+
 	  		else
-	  			render :json => {error:"This event has past."}, :status => :unprocessable_entity
+	  			render :json => {error:"This event has past.", :entry => @entry }, :status => :unprocessable_entity
 	  		end
+
   		rescue Exception => e
 				render :json => {error:"couldn't find required entity", err_description: e.message}, :status => :unprocessable_entity 
 		end
 	end
 
+
+
+
 	def getQuestionsAndAnswers
-		if params[:token].present? and params[:entry_id].present?
-			begin
+		if params[:token].present? and (params[:entry_id].present? or params[:contest_id].present?)
+			puts params[:contest_id]
+			begin				
 				@token = Token.where(:Value => params[:token]).first
 				@user = @token.user
+				entry_present = false
+				contest_present = false
 
-				@entry = Entry.find( params[:entry_id] )
-				@contest = @entry.contest
+				if params[:entry_id].present?
+					@entry = Entry.find( params[:entry_id] )
+					@contest = @entry.contest
+					entry_present = true
+				elsif params[:contest_id].present?
+					@contest = Contest.find(params[:contest_id])
+					contest_present = true
+				end
+
 				@judgeSheet = @contest.judge_sheet
 				@questions = @judgeSheet.questions
 
@@ -163,7 +178,11 @@ class VoteController < ApplicationController
 					@itemm = Hash.new
 					@itemm["question"] = q
 					#@itemm["answer"] = Result.where(:entry_id => @entry.id,:user_id => @user.id, :question_id => q.id).first
-					@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first
+					if entry_present
+						@itemm["answer"] = Result.where(:entry_id => @entry.id, :question_id => q.id).first						
+					else
+						@itemm["answer"] = nil
+					end
 					@returnMap[q.question_category.Name][0].push(@itemm)
 				end
 
@@ -176,8 +195,12 @@ class VoteController < ApplicationController
 					@record = Hash.new
 					@record["Type"] = sp.Type
 					@record["id"] = sp.id
-					if includecar(sp.id, @entry.id, @user.id)
-						@record["isNominated"] = true
+					if !contest_present
+						if includecar(sp.id, @entry.id, @user.id)
+							@record["isNominated"] = true
+						else
+							@record["isNominated"] = false
+						end
 					else
 						@record["isNominated"] = false
 					end
@@ -195,7 +218,7 @@ class VoteController < ApplicationController
 				render :json => {error:"couldn't find required entity", err_description: e.message}, :status => :unprocessable_entity 
 			end
 		else
-			render :json => {error:"couldn't find required parameters"}, :status => :bad_request
+			render :json => {error:"couldn't find required parameters" },  :status => :bad_request
 		end
     end
 
