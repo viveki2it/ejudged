@@ -13,7 +13,7 @@ class Entry < ActiveRecord::Base
   attr_accessible :RegistrationType,:Freezed, :Make, :Model, :Notes, :RegistrationNumber, :Score, :Year, :photos_attributes
   
   validates :Make, :Model, :Year,:RegistrationNumber, :presence => true
-  validates :RegistrationNumber, :numericality => true
+  #validates :RegistrationNumber, :numericality => true
 
   def serializable_hash(options = {})
     super(
