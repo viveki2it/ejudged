@@ -5,7 +5,7 @@ class UsersController < ApplicationController
      @users = User.all
 
     if not ((request.format == "json") and (not params[:page].present?))
-      @users = Kaminari.paginate_array(@users).page(params[:page]).per(10)
+      @users = Kaminari.paginate_array(@users).page(params[:page]).per(150)
     end
 
     respond_to do |format|

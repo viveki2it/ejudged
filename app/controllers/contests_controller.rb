@@ -42,7 +42,7 @@ class ContestsController < ApplicationController
 
     if not params[:page].present? #comes from web or json and already paginate array, don't paginate again
       if not ((request.format == "json") and (not params[:page].present?)) #comes from web and ask for index then paginate array
-        @contests = Kaminari.paginate_array(@contests).page(params[:page]).per(10)
+        @contests = Kaminari.paginate_array(@contests).page(params[:page]).per(150)
       end
     end
       

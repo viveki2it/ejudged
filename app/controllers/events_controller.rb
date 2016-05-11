@@ -237,7 +237,7 @@ class EventsController < ApplicationController
 
     if not params[:page].present? #comes from web or json and already paginate array, don't paginate again
       if not ((request.format == "json") and (not params[:page].present?)) #comes from web and ask for index then paginate array
-        @events = Kaminari.paginate_array(@events).page(params[:page]).per(10)
+        @events = Kaminari.paginate_array(@events).page(params[:page]).per(150)
       end
     end
 
