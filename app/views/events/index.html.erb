@@ -21,6 +21,7 @@
     <th>Location</th>
     <th>Completed</th>
     <th>Serie</th>
+	<th>Event Date</th>
     <th></th>
     <th></th>
     <th></th>
@@ -38,6 +39,7 @@
     <%else%>
         <td>Unassigned</td>
     <%end%>
+	<td><%= event.EventDate %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
     <td><%= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
