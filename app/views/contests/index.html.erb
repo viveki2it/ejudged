@@ -1,6 +1,21 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+<script>
+			$(document).ready(function(){
+				$('#newspaper-b').dataTable({
+					"paging": false,
+					"searching": false,
+					"info":     false
+				});
+			});
+			
+		</script>
+</head>
 <h1>Listing contests</h1>
 
-<table>
+<table id="newspaper-b">
+ <thead>
   <tr>
     <th>Contestname</th>
     <th>Judge sheet</th>
@@ -10,7 +25,9 @@
     <th></th>
     <th></th>
   </tr>
+ </thead>
 
+ <tbody>
 <% @contests.each do |contest| %>
   <tr>
     <td><%= truncate(contest.ContestName, :lenght => 15) %></td>
@@ -36,6 +53,7 @@
     <td><%= link_to 'Destroy', contest, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
 <% end %>
+ </tbody>
 </table>
 <br />
 
