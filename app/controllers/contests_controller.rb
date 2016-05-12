@@ -17,10 +17,10 @@ class ContestsController < ApplicationController
       @contests = Contest.where("ContestName LIKE ? and event_id = ?","%#{params[:filter]}%", params[:event_id])
 
     elsif params[:filter].present? and params[:page].present?
-      @contests = Contest.where("ContestName LIKE ?", "%#{params[:filter]}%").page(params[:page]).per(10)
+      @contests = Contest.where("ContestName LIKE ?", "%#{params[:filter]}%").page(params[:page]).per(150)
 
     elsif params[:event_id].present? and params[:page].present?
-      @contests = Contest.where("event_id = ?", params[:event_id]).page(params[:page]).per(10)
+      @contests = Contest.where("event_id = ?", params[:event_id]).page(params[:page]).per(150)
       
     elsif params[:event_id].present?
       @contests = Contest.where("event_id = ?", params[:event_id])
@@ -29,7 +29,7 @@ class ContestsController < ApplicationController
       @contests = Contest.where("ContestName LIKE ?", "%#{params[:filter]}%")
 
     elsif params[:page].present?
-      @contests = Contest.page(params[:page]).per(10)
+      @contests = Contest.page(params[:page]).per(150)
 
     else
       if is_admin(@user)

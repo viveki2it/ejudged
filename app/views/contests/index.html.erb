@@ -17,6 +17,7 @@
 <table id="newspaper-b">
  <thead>
   <tr>
+	<th>Contest ID</th>
     <th>Contestname</th>
     <th>Judge sheet</th>
     <th>Event</th>
@@ -30,6 +31,7 @@
  <tbody>
 <% @contests.each do |contest| %>
   <tr>
+    <td><%= contest.id %></td>
     <td><%= truncate(contest.ContestName, :lenght => 15) %></td>
 
     <%if not contest.judge_sheet.nil?%>

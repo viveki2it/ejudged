@@ -17,6 +17,7 @@
 <table id="newspaper-b">
  <thead>
   <tr>
+	<th>User ID</th>
     <th>Name</th>
     <th>Created</th>
     <th>Contact info</th>
@@ -28,6 +29,7 @@
  <tbody>
 <% @users.each do |user| %>
   <tr>
+	<td><%= user.id %></td>
     <td><%= truncate(user.Name, :lenght => 15) %></td>
     <td><%= user.Created %></td>
     <%if not user.contact_info.nil?%>
