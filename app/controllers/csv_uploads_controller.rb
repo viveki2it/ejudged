@@ -199,7 +199,7 @@ class CsvUploadsController < ApplicationController
                   @contest = Contest.where("id = ?", value.to_s).first
                 else
                   #check numericality of RegistrationNumber... if they have null values then default is zero for both
-                  if (entry_field == "RegistrationNumber") and ((value.to_s.match(/^[+]?[0-9]+$/) == nil) and value.to_s != "")# or ((entry_field != RegistrationNumber) and (entry_field != Score))
+                  if (entry_field == "RegistrationNumber") and ((value.to_s.match(/^[+]?[0-9a-zA-Z]+$/) == nil) and value.to_s != "")# or ((entry_field != RegistrationNumber) and (entry_field != Score))
                     bad_reg = true
                   else
                     @entry[entry_field] = value.to_s                  
