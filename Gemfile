@@ -25,6 +25,12 @@ gem 'jquery-rails'
 gem 'execjs'
 gem 'therubyracer'
 gem 'paperclip', "~> 3.0"
+
+group :development do
+  gem "capistrano"
+  gem "capistrano-ext"
+  gem "rvm-capistrano", :require => false  
+end
 #gem 'activeadmin'
 #gem "meta_search",    '>= 1.1.0.pre'
 
