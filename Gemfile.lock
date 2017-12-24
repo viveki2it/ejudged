@@ -70,7 +70,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.22)
     multi_json (1.7.2)
-    mysql2 (0.3.11)
+    mysql2 (0.3.21)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
@@ -146,7 +146,7 @@ DEPENDENCIES
   execjs
   jquery-rails
   kaminari
-  mysql2
+  mysql2 (~> 0.3.18)
   paperclip (~> 3.0)
   rails (= 3.2.12)
   rvm-capistrano
@@ -155,4 +155,4 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
 
 BUNDLED WITH
-   1.12.5
+   1.16.1
